@@ -21,13 +21,44 @@ function App() {
 	const [error, setError] = useState('');
 
   const [hideUser, setHideUser] = useState(true);
+  const [hideAbout, setHideAbout] = useState(true);
+  const [hideTrade, setHideTrade] = useState(true);
+  const [hideNav, setHideNav] = useState(false)
 
-  function cornerButtonClick (event) {
-    console.log(hideUser)
+  
+  
+  function cornerButtonClick (event) {    
       if(event.target.getAttribute('name') === 'user') {
         setHideUser(false)
+        setHideNav(true)
         console.log(hideUser);
       }
+      if(event.target.getAttribute('name') === 'about') {
+        setHideAbout(false)
+        setHideNav(true)
+        console.log(hideUser);
+      }
+      if(event.target.getAttribute('name') === 'trade') {
+        setHideTrade(false)
+        setHideNav(true)
+        console.log(hideUser);
+      }
+  }
+  
+  function paperclipButtonClick (event) {
+    event.preventDefault();
+    if(event.target.getAttribute('name') === 'user') {
+      setHideUser(true)
+      setHideNav(false)
+    }
+    if(event.target.getAttribute('name') === 'about') {
+      setHideAbout(true)
+      setHideNav(false)
+    }
+    if(event.target.getAttribute('name') === 'trade') {
+      setHideTrade(true)
+      setHideNav(false)
+    }
   }
 
 	function getUsersData() {
@@ -57,27 +88,31 @@ function App() {
 					render={() => {
 						return (
 							<>
-								<Link to='/data'>
-									<h2 className='data' name='data'>
-										Data
-									</h2>
-								</Link>
-								<Link to='/trade'>
-									<h2 className='trade' name='trade'>
-										Trade
-									</h2>
-								</Link>
-								<Link to='/about'>
-									<h2 className='about' name='about'>
-										About
-									</h2>
-								</Link>
-								<Link to='/user'>
-									<h2 onClick={cornerButtonClick} className='user' name='user'>
-										User
-									</h2>
-								</Link>
-                <User hideUser={hideUser}/>
+                <div className={hideNav ? 'hidden' : ''}>
+  								<Link to='/data'>
+  									<h2 className='data' name='data'>
+  										Data
+  									</h2>
+  								</Link>
+  								<Link to='/trade'>
+  									<h2 onClick={cornerButtonClick} className='trade' name='trade'>
+  										Trade
+  									</h2>
+  								</Link>
+  								<Link to='/about'>
+  									<h2 onClick={cornerButtonClick} className='about' name='about'>
+  										About
+  									</h2>
+  								</Link>
+  								<Link to='/user'>
+  									<h2 onClick={cornerButtonClick} className='user' name='user'>
+  										User
+  									</h2>
+  								</Link>
+                </div>
+                <User hideUser={hideUser} paperclipButtonClick={paperclipButtonClick}/>
+                <About hideAbout={hideAbout} paperclipButtonClick={paperclipButtonClick}/>
+                <Trade hideTrade={hideTrade} paperclipButtonClick={paperclipButtonClick}/>
 							</>
 						);
 					}}
@@ -87,15 +122,12 @@ function App() {
 					render={() => {
 						return (
 							<>
-								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
-								</Link>
-								<User />
+								<User hideUser={hideUser} paperclipButtonClick={paperclipButtonClick}/>
 							</>
 						);
 					}}
 				/> */}
-				<Route
+				{/* <Route
 					path='/trade'
 					render={() => {
 						return (
@@ -107,8 +139,8 @@ function App() {
 							</>
 						);
 					}}
-				/>
-				<Route
+				/> */}
+				{/* <Route
 					path='/about'
 					render={() => {
 						return (
@@ -120,7 +152,7 @@ function App() {
 							</>
 						);
 					}}
-				/>
+				/> */}
 				<Route
 					path='/data'
 					exact={true}
