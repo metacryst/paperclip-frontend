@@ -1,6 +1,6 @@
 # PAPERCLIP//
 
-## TRADE
+### TRADE
 
 In the project directory, you can run:
 
