@@ -5,7 +5,7 @@ function SignUp(props) {
 	return (
 		<>
 			<Link to='/'>
-				<h1 name='signup' onClick={props.paperclipButtonClick}>
+				<h1 name='signup' onClick={props.paperclipButtonClick} className={props.hideSignIn ? 'hidden' : 'signupHeader'}>
 					paperclip
 				</h1>
 			</Link>

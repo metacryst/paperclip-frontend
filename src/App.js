@@ -32,7 +32,10 @@ function App() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('');
-  const [confirmPassword, setconfirmPassword] = useState('');
+	const [confirmPassword, setconfirmPassword] = useState('');
+	
+	//hook for storing current user info
+	const [userId, setUserId] = useState('');
 
 	//hook for display of the nav menu itself
   const [hideNav, setHideNav] = useState(false)
@@ -45,7 +48,7 @@ function App() {
 	useEffect(() => {
 	  return history.listen(location => {
 			// console.log(location.pathname);
-			console.log('useffecting');
+			// console.log('useffecting');
 			
 			
 	    // eslint-disable-next-line default-case
@@ -89,19 +92,14 @@ function App() {
 	  })
 	}, [history])
 	
+	
+	// BUG WORKAROUND FOR DEPLOYMENT, REFRESH CHANGES STATE
 	// window.onload = (() => {
 	// 	console.log('window onloading');
-		
-	// 	return history.listen(location => {
-	// 		switch (location.pathname) {
-	// 			case '/user':
-	// 					setHideUser(false)
-	// 					setHideNav(true)
-	// 					break;
-	// 		}
-	// 	})
+	// 	if(window.location.pathname != '/') {
+	// 		window.location.assign('/')
+	// 	}
 	// })
-	
 
   function cornerButtonClick (event) {    
       if(event.target.getAttribute('name') === 'user') {
@@ -140,7 +138,7 @@ function App() {
   // Sign in/ Sign Up
 function handleChange (event) {
 	// eslint-disable-next-line default-case
-	console.log('handling change');
+	// console.log('handling change');
 	
 	switch (event.target.name){
 		case 'email':
@@ -201,6 +199,7 @@ function signUp (body) {
 	};
 	
 	console.log(requestOptions)
+	let userId = ''
 	
 	fetch('http://localhost:8080/api/user', requestOptions)
 		.then((response) => response.json())
@@ -212,6 +211,7 @@ function signUp (body) {
 			setUsername('')
 			setPassword('')
 			setconfirmPassword('')
+			setUserId(userId)
 		})
 	
 }
@@ -225,6 +225,7 @@ function signIn (body) {
 	};
 	
 	console.log(requestOptions)
+	let userId = ''
 	
 	fetch(`http://localhost:8080/api/user/${username}/signin`, requestOptions)
 		.then((response) => response.json())
@@ -236,6 +237,7 @@ function signIn (body) {
 			setUsername('')
 			setPassword('')
 			setconfirmPassword('')
+			setUserId(userId)
 		})
 	
 }
