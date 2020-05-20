@@ -8,6 +8,12 @@ a {
   color: white;
 }
 
+.header {
+	position: absolute;
+	left: 20px;
+	top: 20px;
+}
+
 .data {
 	position: absolute;
 	left: 20px;
@@ -36,6 +42,3 @@ a {
   display: none;
 }
 
-.user {
-  background-color: white;
-}
