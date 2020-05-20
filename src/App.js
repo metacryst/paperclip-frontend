@@ -28,6 +28,7 @@ function App() {
   const [hideAbout, setHideAbout] = useState(true);
   const [hideTrade, setHideTrade] = useState(true);
   
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
@@ -122,6 +123,9 @@ function App() {
 function handleChange (event) {
 	// eslint-disable-next-line default-case
 	switch (event.target.name){
+		case 'email':
+			setEmail(event.target.value)
+			break;
 		case 'username':
 			setUsername(event.target.value)
 			break;
@@ -131,13 +135,17 @@ function handleChange (event) {
 		case 'confirmPassword':
 			setconfirmPassword(event.target.value)
 			break;
+		
 	}
 }
 
+let information
+
 function runSubmit(event){
 	event.preventDefault()
-	let information = {
-		username: username,
+	information = {
+		email: email,
+		userName: username,
 		password: password
 	}
 	console.log(information)
@@ -148,21 +156,24 @@ function runSubmit(event){
 
 const [postId, setPostId] = useState('');
 
-function signUp () {
+function signUp (body) {
 	// POST request using fetch inside useEffect React hook
 	const requestOptions = {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			title: 'React Hooks POST Request Example',
-		}),
+		body: JSON.stringify(information),
 	};
+	console.log(requestOptions)
 	fetch(
 		'http://localhost:8080/api/user',
 		requestOptions
 	)
 		.then((response) => response.json())
-		.then((data) => setPostId(data.id));
+		.then((data) => {
+			console.log(data)
+			setPostId(data.id)})
+		.then((data) => {
+		})
 }
 
 

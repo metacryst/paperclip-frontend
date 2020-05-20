@@ -12,6 +12,15 @@ function SignUp(props) {
 			<div className={props.hideTrade ? 'hidden' : 'signup'}>
 				<h1>Sign Up</h1>
 				<form>
+					<label htmlFor='email'>Email</label>
+					<input
+						onChange={props.handleChange}
+						type='text'
+						placeholder='email'
+						id='email'
+						name='email'
+					/>
+					<label htmlFor='username'>Username</label>
 					<input
 						onChange={props.handleChange}
 						type='text'
@@ -19,8 +28,8 @@ function SignUp(props) {
 						id='username'
 						name='username'
 					/>
-					<label htmlFor='username'>Username</label>
 
+					<label htmlFor='password'>Password</label>
 					<input
 						onChange={props.handleChange}
 						type='password'
@@ -28,8 +37,8 @@ function SignUp(props) {
 						id='password'
 						name='password'
 					/>
-					<label htmlFor='password'>Password</label>
 
+					<label htmlFor='passwordConfirm'>Confirm password</label>
 					<input
 						onChange={props.handleChange}
 						type='password'
@@ -37,7 +46,6 @@ function SignUp(props) {
 						id='passwordConfirm'
 						name='confirmPassword'
 					/>
-					<label htmlFor='passwordConfirm'>Confirm password</label>
 					<button onClick={props.runSubmit} type='submit'>
 						Sign Up
 					</button>
