@@ -8,6 +8,21 @@ a {
   color: white;
 }
 
+h2 {
+	font-weight: 900;
+}
+
+.graphic {
+	position: absolute;
+	top: 45%;
+	left: 46%;
+}
+
+.graphicHolder {
+	text-align: center;
+}
+
+/* four corners */
 .header {
 	position: absolute;
 	left: 20px;
@@ -28,14 +43,14 @@ a {
 
 .trade {
 	position: absolute;
-	bottom: 10px;
-	left: 10px;
+	bottom: 15px;
+	left: 20px;
 }
 
 .about {
 	position: absolute;
-	bottom: 10px;
-	right: 10px;
+	bottom: 15px;
+	right: 20px;
 }
 
 .hidden {

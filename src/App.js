@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Route, Link, useHistory } from 'react-router-dom';
 import './App.css';
 
@@ -27,7 +27,8 @@ function App() {
   const [hideSignUp, setHideSignUp] = useState(true)
   const [hideAbout, setHideAbout] = useState(true);
   const [hideTrade, setHideTrade] = useState(true);
-  
+	
+	// hooks for login and sign up
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('');
@@ -43,7 +44,9 @@ function App() {
 
 	useEffect(() => {
 	  return history.listen(location => {
-			console.log(location.pathname);
+			// console.log(location.pathname);
+			console.log('useffecting');
+			
 			
 	    // eslint-disable-next-line default-case
 	    switch (location.pathname) {
@@ -51,6 +54,8 @@ function App() {
 					setHideUser(true)
 					setHideAbout(true)
 					setHideTrade(true)
+					setHideSignUp(true)
+					setHideSignIn(true)
 					setHideNav(false)
 					break;
 					
@@ -68,21 +73,34 @@ function App() {
 					setHideTrade(false)
 					setHideNav(true)
 					break;
+					
 				case '/signin':
 					setHideUser(true);
 					setHideNav(true);
 					setHideSignIn(false);
-					setHideSignUp(false);
 					break;
+					
 				case '/signup':
 					setHideUser(true)
 					setHideNav(true)
-					setHideSignIn(false)
 					setHideSignUp(false)
 					break;
 			}
 	  })
 	}, [history])
+	
+	// window.onload = (() => {
+	// 	console.log('window onloading');
+		
+	// 	return history.listen(location => {
+	// 		switch (location.pathname) {
+	// 			case '/user':
+	// 					setHideUser(false)
+	// 					setHideNav(true)
+	// 					break;
+	// 		}
+	// 	})
+	// })
 	
 
   function cornerButtonClick (event) {    
@@ -122,6 +140,8 @@ function App() {
   // Sign in/ Sign Up
 function handleChange (event) {
 	// eslint-disable-next-line default-case
+	console.log('handling change');
+	
 	switch (event.target.name){
 		case 'email':
 			setEmail(event.target.value)
@@ -139,41 +159,85 @@ function handleChange (event) {
 	}
 }
 
-let information
+let signUpInformation
+let signInInformation
 
 function runSubmit(event){
 	event.preventDefault()
-	information = {
+	
+	signUpInformation = {
 		email: email,
 		userName: username,
 		password: password
 	}
-	console.log(information)
-	signUp(information)
+	signInInformation = {
+		userName: username,
+		password: password
+	}
+	console.log(signInInformation)
+	
+	switch(event.target.name) {
+		case 'signUp':
+			signUp()
+			break;
+		case 'signIn':
+			signIn()
+			break;
+	}
 }
 
-// SignUp POST
+// SIGN UP AND SIGN IN FUNCTIONS
 
 const [postId, setPostId] = useState('');
 
 function signUp (body) {
-	// POST request using fetch inside useEffect React hook
+	// POST request using fetch inside useEffect React hook	
+	console.log('signing up');
+	
 	const requestOptions = {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(information),
+		body: JSON.stringify(signUpInformation),
 	};
+	
 	console.log(requestOptions)
-	fetch(
-		'http://localhost:8080/api/user',
-		requestOptions
-	)
+	
+	fetch('http://localhost:8080/api/user', requestOptions)
 		.then((response) => response.json())
 		.then((data) => {
 			console.log(data)
 			setPostId(data.id)})
-		.then((data) => {
+		.then(() => {
+			setEmail('')
+			setUsername('')
+			setPassword('')
+			setconfirmPassword('')
 		})
+	
+}
+
+function signIn (body) {
+	// POST request using fetch inside useEffect React hook	
+	const requestOptions = {
+		method: 'GET',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(signInInformation),
+	};
+	
+	console.log(requestOptions)
+	
+	fetch(`http://localhost:8080/api/user/${username}/signin`, requestOptions)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data)
+			setPostId(data.id)})
+		.then(() => {
+			setEmail('')
+			setUsername('')
+			setPassword('')
+			setconfirmPassword('')
+		})
+	
 }
 
 
@@ -200,6 +264,9 @@ function signUp (body) {
 	return (
 		<div className='wrapper' id='grad'>
 			<main>
+				<div className="graphicHolder">
+					<p className="graphic">=======<br></br>=====</p>
+				</div>
 				<Route
 					path='/'
 					// exact={true}
@@ -207,17 +274,17 @@ function signUp (body) {
 						return (
 							<>
 								<div className={hideNav ? 'hidden' : ''}>
-									<Link to='/data'>
-										<h2 className='data' name='data'>
-											Data
-										</h2>
+									<Link to='/'>
+										<h1 className='header' name='header'>
+											paperclip//
+										</h1>
 									</Link>
 									<Link to='/trade'>
 										<h2
 											onClick={cornerButtonClick}
 											className='trade'
 											name='trade'>
-											Trade
+											trade
 										</h2>
 									</Link>
 									<Link to='/about'>
@@ -225,7 +292,7 @@ function signUp (body) {
 											onClick={cornerButtonClick}
 											className='about'
 											name='about'>
-											About
+											about
 										</h2>
 									</Link>
 									<Link to='/user'>
@@ -233,7 +300,7 @@ function signUp (body) {
 											onClick={cornerButtonClick}
 											className='user'
 											name='user'>
-											User
+											user
 										</h2>
 									</Link>
 								</div>
@@ -285,7 +352,7 @@ function signUp (body) {
 					render={() => {
 						return (
 							<>
-								<SignIn handleChange={handleChange} runSubmit={runSubmit} />
+								<SignIn handleChange={handleChange} runSubmit={runSubmit} hideSignIn={hideSignIn} />
 							</>
 						);
 					}}
@@ -295,7 +362,7 @@ function signUp (body) {
 					render={() => {
 						return (
 							<>
-								<SignUp handleChange={handleChange} runSubmit={runSubmit}/>
+								<SignUp handleChange={handleChange} runSubmit={runSubmit} hideSignUp={hideSignUp}/>
 							</>
 						);
 					}}
