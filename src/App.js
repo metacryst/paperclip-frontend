@@ -1,5 +1,5 @@
-import React, { Component, useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Route, Link, useHistory } from 'react-router-dom';
 import './App.css';
 
 import Users from './components/data/Users.js';
@@ -14,22 +14,91 @@ import Trade from './components/Trade.js';
 import User from './components/User.js';
 
 function App() {
+	// hooks for api calls
 	const [usersData, setUsersData] = useState([]);
-
 	const [apiLink, setApiData] = useState([]);
-
 	const [error, setError] = useState('');
 
+	// hooks for the display of every component in nav menu
   const [hideUser, setHideUser] = useState(true);
+  const [hideAbout, setHideAbout] = useState(true);
+	const [hideTrade, setHideTrade] = useState(true);
+	//hook for display of the nav menu itself
+  const [hideNav, setHideNav] = useState(false)
 
-  function cornerButtonClick (event) {
-    console.log(hideUser)
+	
+	
+	// function to handle display for each url
+	const history = useHistory()
+
+	useEffect(() => {
+	  return history.listen(location => {
+			console.log(location.pathname);
+			
+	    switch (location.pathname) {
+				case '/':
+					setHideUser(true)
+					setHideAbout(true)
+					setHideTrade(true)
+					setHideNav(false)
+					break;
+					
+				case '/user':
+					setHideUser(false)
+					setHideNav(true)
+					break;
+					
+				case '/about':
+					setHideAbout(false)
+					setHideNav(true)
+					break;
+					
+				case '/trade':
+					setHideTrade(false)
+					setHideNav(true)
+					break;
+			}
+	  })
+	}, [])
+	
+
+  function cornerButtonClick (event) {    
       if(event.target.getAttribute('name') === 'user') {
         setHideUser(false)
+        setHideNav(true)
+        console.log(hideUser);
+      }
+      if(event.target.getAttribute('name') === 'about') {
+        setHideAbout(false)
+        setHideNav(true)
+        console.log(hideUser);
+      }
+      if(event.target.getAttribute('name') === 'trade') {
+        setHideTrade(false)
+        setHideNav(true)
         console.log(hideUser);
       }
   }
+	
+	// function to handle home button click
+  function paperclipButtonClick (event) {
+    if(event.target.getAttribute('name') === 'user') {
+      setHideUser(true)
+      setHideNav(false)
+    }
+    if(event.target.getAttribute('name') === 'about') {
+      setHideAbout(true)
+      setHideNav(false)
+    }
+    if(event.target.getAttribute('name') === 'trade') {
+      setHideTrade(true)
+      setHideNav(false)
+    }
+  }
 
+	
+	
+	//API CALL
 	function getUsersData() {
 		const url = `http://localhost:8080/api/${apiLink}`;
 		console.log(apiLink);
@@ -44,6 +113,7 @@ function App() {
 			});
 	}
 
+	// display api data by loading into state
 	function navButtonClick(event) {
 		setApiData(event.target.getAttribute('name'));
 	}
@@ -57,44 +127,42 @@ function App() {
 					render={() => {
 						return (
 							<>
-								<Link to='/data'>
-									<h2 className='data' name='data'>
-										Data
-									</h2>
-								</Link>
-								<Link to='/trade'>
-									<h2 className='trade' name='trade'>
-										Trade
-									</h2>
-								</Link>
-								<Link to='/about'>
-									<h2 className='about' name='about'>
-										About
-									</h2>
-								</Link>
-								<Link to='/user'>
-									<h2 onClick={cornerButtonClick} className='user' name='user'>
-										User
-									</h2>
-								</Link>
-                <User hideUser={hideUser}/>
+                <div className={hideNav ? 'hidden' : ''}>
+  								<Link to='/data'>
+  									<h2 className='data' name='data'>
+  										Data
+  									</h2>
+  								</Link>
+  								<Link to='/trade'>
+  									<h2 onClick={cornerButtonClick} className='trade' name='trade'>
+  										Trade
+  									</h2>
+  								</Link>
+  								<Link to='/about'>
+  									<h2 onClick={cornerButtonClick} className='about' name='about'>
+  										About
+  									</h2>
+  								</Link>
+  								<Link to='/user'>
+  									<h2 onClick={cornerButtonClick} className='user' name='user'>
+  										User
+  									</h2>
+  								</Link>
+                </div>
 							</>
 						);
 					}}
 				/>
-				{/* <Route
+				<Route
 					path='/user'
 					render={() => {
 						return (
 							<>
-								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
-								</Link>
-								<User />
+								<User hideUser={hideUser} paperclipButtonClick={paperclipButtonClick}/>
 							</>
 						);
 					}}
-				/> */}
+				/>
 				<Route
 					path='/trade'
 					render={() => {
