@@ -8,6 +8,8 @@ import Items from './components/data/Items.js';
 import Needs from './components/data/Needs.js';
 import Tiers from './components/data/Tiers.js';
 import Links from './components/data/Links.js';
+import SignIn from './components/SignIn'
+import SignUp from './components/SignUp';
 
 import About from './components/About.js';
 import Trade from './components/Trade.js';
@@ -21,8 +23,10 @@ function App() {
 
 	// hooks for the display of every component in nav menu
   const [hideUser, setHideUser] = useState(true);
+  const [hideSignIn, setHideSignIn] = useState(true)
+  const [hideSignUp, setHideSignUp] = useState(true)
   const [hideAbout, setHideAbout] = useState(true);
-	const [hideTrade, setHideTrade] = useState(true);
+  const [hideTrade, setHideTrade] = useState(true);
 	//hook for display of the nav menu itself
   const [hideNav, setHideNav] = useState(false)
 
@@ -35,6 +39,7 @@ function App() {
 	  return history.listen(location => {
 			console.log(location.pathname);
 			
+	    // eslint-disable-next-line default-case
 	    switch (location.pathname) {
 				case '/':
 					setHideUser(true)
@@ -56,6 +61,18 @@ function App() {
 				case '/trade':
 					setHideTrade(false)
 					setHideNav(true)
+					break;
+				case '/signin':
+					setHideUser(true);
+					setHideNav(true);
+					setHideSignIn(false);
+					setHideSignUp(false);
+					break;
+				case '/signup':
+					setHideUser(true)
+					setHideNav(true)
+					setHideSignIn(false)
+					setHideSignUp(false)
 					break;
 			}
 	  })
@@ -96,8 +113,15 @@ function App() {
     }
   }
 
-	
-	
+function handleChange (event) {
+	console.log(event)
+}
+
+function runSubmit(event){
+	event.preventDefault()
+	console.log(event)
+}
+
 	//API CALL
 	function getUsersData() {
 		const url = `http://localhost:8080/api/${apiLink}`;
@@ -127,28 +151,37 @@ function App() {
 					render={() => {
 						return (
 							<>
-                <div className={hideNav ? 'hidden' : ''}>
-  								<Link to='/data'>
-  									<h2 className='data' name='data'>
-  										Data
-  									</h2>
-  								</Link>
-  								<Link to='/trade'>
-  									<h2 onClick={cornerButtonClick} className='trade' name='trade'>
-  										Trade
-  									</h2>
-  								</Link>
-  								<Link to='/about'>
-  									<h2 onClick={cornerButtonClick} className='about' name='about'>
-  										About
-  									</h2>
-  								</Link>
-  								<Link to='/user'>
-  									<h2 onClick={cornerButtonClick} className='user' name='user'>
-  										User
-  									</h2>
-  								</Link>
-                </div>
+								<div className={hideNav ? 'hidden' : ''}>
+									<Link to='/data'>
+										<h2 className='data' name='data'>
+											Data
+										</h2>
+									</Link>
+									<Link to='/trade'>
+										<h2
+											onClick={cornerButtonClick}
+											className='trade'
+											name='trade'>
+											Trade
+										</h2>
+									</Link>
+									<Link to='/about'>
+										<h2
+											onClick={cornerButtonClick}
+											className='about'
+											name='about'>
+											About
+										</h2>
+									</Link>
+									<Link to='/user'>
+										<h2
+											onClick={cornerButtonClick}
+											className='user'
+											name='user'>
+											User
+										</h2>
+									</Link>
+								</div>
 							</>
 						);
 					}}
@@ -158,7 +191,10 @@ function App() {
 					render={() => {
 						return (
 							<>
-								<User hideUser={hideUser} paperclipButtonClick={paperclipButtonClick}/>
+								<User
+									hideUser={hideUser}
+									paperclipButtonClick={paperclipButtonClick}
+								/>
 							</>
 						);
 					}}
@@ -185,6 +221,26 @@ function App() {
 									<h1 className='header'>paperclip</h1>
 								</Link>
 								<About />
+							</>
+						);
+					}}
+				/>
+				<Route
+					path='/signin'
+					render={() => {
+						return (
+							<>
+								<SignIn handleChange={handleChange} runSubmit={runSubmit} />
+							</>
+						);
+					}}
+				/>
+				<Route
+					path='/signup'
+					render={() => {
+						return (
+							<>
+								<SignUp handleChange={handleChange} runSubmit={runSubmit}/>
 							</>
 						);
 					}}
