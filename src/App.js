@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Link, useHistory } from 'react-router-dom';
 import './App.css';
 
@@ -14,19 +14,21 @@ import Trade from './components/Trade.js';
 import User from './components/User.js';
 
 function App() {
+	// hooks for api calls
 	const [usersData, setUsersData] = useState([]);
-
 	const [apiLink, setApiData] = useState([]);
-
 	const [error, setError] = useState('');
 
+	// hooks for the display of every component in nav menu
   const [hideUser, setHideUser] = useState(true);
   const [hideAbout, setHideAbout] = useState(true);
-  const [hideTrade, setHideTrade] = useState(true);
+	const [hideTrade, setHideTrade] = useState(true);
+	//hook for display of the nav menu itself
   const [hideNav, setHideNav] = useState(false)
 
-  
-  const [ locationKeys, setLocationKeys ] = useState([])
+	
+	
+	// function to handle display for each url
 	const history = useHistory()
 
 	useEffect(() => {
@@ -57,7 +59,7 @@ function App() {
 					break;
 			}
 	  })
-	}, [ locationKeys, ])
+	}, [])
 	
 
   function cornerButtonClick (event) {    
@@ -77,7 +79,8 @@ function App() {
         console.log(hideUser);
       }
   }
-  
+	
+	// function to handle home button click
   function paperclipButtonClick (event) {
     if(event.target.getAttribute('name') === 'user') {
       setHideUser(true)
@@ -93,6 +96,9 @@ function App() {
     }
   }
 
+	
+	
+	//API CALL
 	function getUsersData() {
 		const url = `http://localhost:8080/api/${apiLink}`;
 		console.log(apiLink);
@@ -107,6 +113,7 @@ function App() {
 			});
 	}
 
+	// display api data by loading into state
 	function navButtonClick(event) {
 		setApiData(event.target.getAttribute('name'));
 	}
@@ -142,9 +149,6 @@ function App() {
   									</h2>
   								</Link>
                 </div>
-                {/* <User hideUser={hideUser} paperclipButtonClick={paperclipButtonClick}/> */}
-                <About hideAbout={hideAbout} paperclipButtonClick={paperclipButtonClick}/>
-                <Trade hideTrade={hideTrade} paperclipButtonClick={paperclipButtonClick}/>
 							</>
 						);
 					}}
@@ -159,7 +163,7 @@ function App() {
 						);
 					}}
 				/>
-				{/* <Route
+				<Route
 					path='/trade'
 					render={() => {
 						return (
@@ -171,8 +175,8 @@ function App() {
 							</>
 						);
 					}}
-				/> */}
-				{/* <Route
+				/>
+				<Route
 					path='/about'
 					render={() => {
 						return (
@@ -184,7 +188,7 @@ function App() {
 							</>
 						);
 					}}
-				/> */}
+				/>
 				<Route
 					path='/data'
 					exact={true}
