@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, useHistory } from 'react-router-dom';
 import './App.css';
 
 import Users from './components/data/Users.js';
@@ -26,7 +26,34 @@ function App() {
   const [hideNav, setHideNav] = useState(false)
 
   
-  
+  const [ locationKeys, setLocationKeys ] = useState([])
+	const history = useHistory()
+
+	useEffect(() => {
+	  return history.listen(location => {
+	    if (history.action === 'PUSH') {
+	      setLocationKeys([ location.key ])
+	    }
+
+	    if (history.action === 'POP') {
+	      if (locationKeys[1] === location.key) {
+	        setLocationKeys(([ _, ...keys ]) => keys)
+
+	        // Handle forward event
+
+	      } else {
+	        setLocationKeys((keys) => [ location.key, ...keys ])
+
+					// Handle back event
+					setHideUser(!hideUser);
+					setHideNav(!hideNav)
+
+	      }
+	    }
+	  })
+	}, [ locationKeys, ])
+	
+
   function cornerButtonClick (event) {    
       if(event.target.getAttribute('name') === 'user') {
         setHideUser(false)
