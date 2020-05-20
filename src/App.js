@@ -31,25 +31,31 @@ function App() {
 
 	useEffect(() => {
 	  return history.listen(location => {
-	    if (history.action === 'PUSH') {
-	      setLocationKeys([ location.key ])
-	    }
-
-	    if (history.action === 'POP') {
-	      if (locationKeys[1] === location.key) {
-	        setLocationKeys(([ _, ...keys ]) => keys)
-
-	        // Handle forward event
-
-	      } else {
-	        setLocationKeys((keys) => [ location.key, ...keys ])
-
-					// Handle back event
-					setHideUser(!hideUser);
-					setHideNav(!hideNav)
-
-	      }
-	    }
+			console.log(location.pathname);
+			
+	    switch (location.pathname) {
+				case '/':
+					setHideUser(true)
+					setHideAbout(true)
+					setHideTrade(true)
+					setHideNav(false)
+					break;
+					
+				case '/user':
+					setHideUser(false)
+					setHideNav(true)
+					break;
+					
+				case '/about':
+					setHideAbout(false)
+					setHideNav(true)
+					break;
+					
+				case '/trade':
+					setHideTrade(false)
+					setHideNav(true)
+					break;
+			}
 	  })
 	}, [ locationKeys, ])
 	
@@ -73,7 +79,6 @@ function App() {
   }
   
   function paperclipButtonClick (event) {
-    event.preventDefault();
     if(event.target.getAttribute('name') === 'user') {
       setHideUser(true)
       setHideNav(false)
@@ -137,14 +142,14 @@ function App() {
   									</h2>
   								</Link>
                 </div>
-                <User hideUser={hideUser} paperclipButtonClick={paperclipButtonClick}/>
+                {/* <User hideUser={hideUser} paperclipButtonClick={paperclipButtonClick}/> */}
                 <About hideAbout={hideAbout} paperclipButtonClick={paperclipButtonClick}/>
                 <Trade hideTrade={hideTrade} paperclipButtonClick={paperclipButtonClick}/>
 							</>
 						);
 					}}
 				/>
-				{/* <Route
+				<Route
 					path='/user'
 					render={() => {
 						return (
@@ -153,7 +158,7 @@ function App() {
 							</>
 						);
 					}}
-				/> */}
+				/>
 				{/* <Route
 					path='/trade'
 					render={() => {

@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function About(props) {
   return (
     <>
-      <a href=''>
+      <Link to='/'>
     			<h1 className={props.hideAbout ? 'hidden' : 'header'} name='about' onClick={props.paperclipButtonClick}>paperclip</h1>
-    	</a>
+      </Link>
       <div className={props.hideAbout ? 'hidden' : 'about'}>
         <p className="aboutText">trade things. maybe you'll get a house</p>
         <div className="credit">
