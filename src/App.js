@@ -27,6 +27,10 @@ function App() {
   const [hideSignUp, setHideSignUp] = useState(true)
   const [hideAbout, setHideAbout] = useState(true);
   const [hideTrade, setHideTrade] = useState(true);
+  
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setconfirmPassword] = useState('');
 	//hook for display of the nav menu itself
   const [hideNav, setHideNav] = useState(false)
 
@@ -113,9 +117,23 @@ function App() {
     }
   }
 
+  // Sign in/ Sign Up
 function handleChange (event) {
-	console.log(event)
+	// eslint-disable-next-line default-case
+	switch (event.target.name){
+		case 'username':
+			setUsername(event.target.value)
+			break;
+		case 'password':
+			setPassword(event.target.value)
+			break;
+		case 'confirmPassword':
+			setconfirmPassword(event.target.value)
+			break;
+	}
 }
+
+
 
 function runSubmit(event){
 	event.preventDefault()

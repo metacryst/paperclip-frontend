@@ -17,6 +17,7 @@ function SignUp(props) {
 						type='text'
 						placeholder='Username'
 						id='username'
+						name='username'
 					/>
 					<label htmlFor='username'>Username</label>
 
@@ -25,6 +26,7 @@ function SignUp(props) {
 						type='password'
 						placeholder='Password'
 						id='password'
+						name='password'
 					/>
 					<label htmlFor='password'>Password</label>
 
@@ -33,6 +35,7 @@ function SignUp(props) {
 						type='password'
 						placeholder='Confirm password'
 						id='passwordConfirm'
+						name='confirmPassword'
 					/>
 					<label htmlFor='passwordConfirm'>Confirm password</label>
 					<button onClick={props.runSubmit} type='submit'>
