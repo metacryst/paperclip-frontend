@@ -14,16 +14,6 @@ function User(props) {
 			</Link>
 			<div className={props.hideUser ? 'hidden' : 'user'}>
 				<Route
-					path='/signin'
-					render={() => {
-						return (
-							<>
-								<SignIn />
-							</>
-						);
-					}}
-				/>
-				<Route
 					path='/signup'
 					render={() => {
 						return (

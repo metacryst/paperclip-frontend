@@ -8,6 +8,8 @@ import Items from './components/data/Items.js';
 import Needs from './components/data/Needs.js';
 import Tiers from './components/data/Tiers.js';
 import Links from './components/data/Links.js';
+import SignIn from './components/SignIn'
+import SignUp from './components/SignUp';
 
 import About from './components/About.js';
 import Trade from './components/Trade.js';
@@ -21,8 +23,16 @@ function App() {
 
 	// hooks for the display of every component in nav menu
   const [hideUser, setHideUser] = useState(true);
+  const [hideSignIn, setHideSignIn] = useState(true)
+  const [hideSignUp, setHideSignUp] = useState(true)
   const [hideAbout, setHideAbout] = useState(true);
-	const [hideTrade, setHideTrade] = useState(true);
+  const [hideTrade, setHideTrade] = useState(true);
+  
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setconfirmPassword] = useState('');
+
 	//hook for display of the nav menu itself
   const [hideNav, setHideNav] = useState(false)
 
@@ -35,6 +45,7 @@ function App() {
 	  return history.listen(location => {
 			console.log(location.pathname);
 			
+	    // eslint-disable-next-line default-case
 	    switch (location.pathname) {
 				case '/':
 					setHideUser(true)
@@ -57,9 +68,21 @@ function App() {
 					setHideTrade(false)
 					setHideNav(true)
 					break;
+				case '/signin':
+					setHideUser(true);
+					setHideNav(true);
+					setHideSignIn(false);
+					setHideSignUp(false);
+					break;
+				case '/signup':
+					setHideUser(true)
+					setHideNav(true)
+					setHideSignIn(false)
+					setHideSignUp(false)
+					break;
 			}
 	  })
-	}, [])
+	}, [history])
 	
 
   function cornerButtonClick (event) {    
@@ -96,8 +119,64 @@ function App() {
     }
   }
 
-	
-	
+  // Sign in/ Sign Up
+function handleChange (event) {
+	// eslint-disable-next-line default-case
+	switch (event.target.name){
+		case 'email':
+			setEmail(event.target.value)
+			break;
+		case 'username':
+			setUsername(event.target.value)
+			break;
+		case 'password':
+			setPassword(event.target.value)
+			break;
+		case 'confirmPassword':
+			setconfirmPassword(event.target.value)
+			break;
+		
+	}
+}
+
+let information
+
+function runSubmit(event){
+	event.preventDefault()
+	information = {
+		email: email,
+		userName: username,
+		password: password
+	}
+	console.log(information)
+	signUp(information)
+}
+
+// SignUp POST
+
+const [postId, setPostId] = useState('');
+
+function signUp (body) {
+	// POST request using fetch inside useEffect React hook
+	const requestOptions = {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(information),
+	};
+	console.log(requestOptions)
+	fetch(
+		'http://localhost:8080/api/user',
+		requestOptions
+	)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data)
+			setPostId(data.id)})
+		.then((data) => {
+		})
+}
+
+
 	//API CALL
 	function getUsersData() {
 		const url = `http://localhost:8080/api/${apiLink}`;
@@ -127,28 +206,37 @@ function App() {
 					render={() => {
 						return (
 							<>
-                <div className={hideNav ? 'hidden' : ''}>
-  								<Link to='/data'>
-  									<h2 className='data' name='data'>
-  										Data
-  									</h2>
-  								</Link>
-  								<Link to='/trade'>
-  									<h2 onClick={cornerButtonClick} className='trade' name='trade'>
-  										Trade
-  									</h2>
-  								</Link>
-  								<Link to='/about'>
-  									<h2 onClick={cornerButtonClick} className='about' name='about'>
-  										About
-  									</h2>
-  								</Link>
-  								<Link to='/user'>
-  									<h2 onClick={cornerButtonClick} className='user' name='user'>
-  										User
-  									</h2>
-  								</Link>
-                </div>
+								<div className={hideNav ? 'hidden' : ''}>
+									<Link to='/data'>
+										<h2 className='data' name='data'>
+											Data
+										</h2>
+									</Link>
+									<Link to='/trade'>
+										<h2
+											onClick={cornerButtonClick}
+											className='trade'
+											name='trade'>
+											Trade
+										</h2>
+									</Link>
+									<Link to='/about'>
+										<h2
+											onClick={cornerButtonClick}
+											className='about'
+											name='about'>
+											About
+										</h2>
+									</Link>
+									<Link to='/user'>
+										<h2
+											onClick={cornerButtonClick}
+											className='user'
+											name='user'>
+											User
+										</h2>
+									</Link>
+								</div>
 							</>
 						);
 					}}
@@ -158,7 +246,10 @@ function App() {
 					render={() => {
 						return (
 							<>
-								<User hideUser={hideUser} paperclipButtonClick={paperclipButtonClick}/>
+								<User
+									hideUser={hideUser}
+									paperclipButtonClick={paperclipButtonClick}
+								/>
 							</>
 						);
 					}}
@@ -185,6 +276,26 @@ function App() {
 									<h1 className='header'>paperclip</h1>
 								</Link>
 								<About />
+							</>
+						);
+					}}
+				/>
+				<Route
+					path='/signin'
+					render={() => {
+						return (
+							<>
+								<SignIn handleChange={handleChange} runSubmit={runSubmit} />
+							</>
+						);
+					}}
+				/>
+				<Route
+					path='/signup'
+					render={() => {
+						return (
+							<>
+								<SignUp handleChange={handleChange} runSubmit={runSubmit}/>
 							</>
 						);
 					}}
