@@ -31,6 +31,7 @@ function App() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
+
 	//hook for display of the nav menu itself
   const [hideNav, setHideNav] = useState(false)
 
@@ -80,7 +81,7 @@ function App() {
 					break;
 			}
 	  })
-	}, [])
+	}, [history])
 	
 
   function cornerButtonClick (event) {    
@@ -133,12 +134,37 @@ function handleChange (event) {
 	}
 }
 
-
-
 function runSubmit(event){
 	event.preventDefault()
-	console.log(event)
+	let information = {
+		username: username,
+		password: password
+	}
+	console.log(information)
+	signUp(information)
 }
+
+// SignUp POST
+
+const [postId, setPostId] = useState('');
+
+function signUp () {
+	// POST request using fetch inside useEffect React hook
+	const requestOptions = {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			title: 'React Hooks POST Request Example',
+		}),
+	};
+	fetch(
+		'http://localhost:8080/api/user',
+		requestOptions
+	)
+		.then((response) => response.json())
+		.then((data) => setPostId(data.id));
+}
+
 
 	//API CALL
 	function getUsersData() {
