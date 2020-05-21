@@ -1,29 +1,28 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-function Item(props) {
-	// console.log(props.itemData);
-	const items = [...props.itemData];
+function Need(props) {
+	const needs = [...props.needData];
 	const tierList = props.tierData.map((tier) => {
-		const filterItems = items.filter((item) => item.tier._id === tier._id);
-		const tierItems = filterItems.map((item) => {
+		const filterNeeds = needs.filter((need) => need.tier._id === tier._id);
+		const tierNeeds = filterNeeds.map((need) => {
 			return (
-				<div key={item._id}>
+				<div key={need._id}>
 					<span
 						className='delete'
 						onClick={() => {
-							props.itemDelete(item._id);
+							props.needDelete(need._id);
 						}}>
 						(-)
 					</span>{' '}
-					{item.category.title} - {item.description}
+					{need.category.title}
 				</div>
 			);
 		});
 		return (
 			<div key={tier.rank}>
 				<h3>Tier {tier.rank}</h3>
-				{tierItems}
+				{tierNeeds}
 			</div>
 		);
 	});
@@ -43,45 +42,36 @@ function Item(props) {
 
 	return (
 		<div>
-			<h1>Items</h1>
+			<h1>Needs</h1>
 			<div>
 				<span
 					className='add'
 					onClick={() => {
-						props.toggleAddItemHidden();
+						props.toggleAddNeedHidden();
 					}}>
-					({props.addItemHidden === 'hidden' ? '+' : '-'}) Add Item
+					({props.addNeedHidden === 'hidden' ? '+' : '-'}) Add Need
 				</span>
-				<div className='addItem' className={props.addItemHidden}>
+				<div className='addItem' className={props.addNeedHidden}>
 					Tier:{' '}
 					<select
-						name='newItemTier'
-						id='itemTiers'
+						name='newNeedTier'
+						id='needTiers'
 						onChange={props.handleChange}>
 						{tierChoices}
 					</select>{' '}
 					Category:
 					<select
-						name='newItemCategory'
-						id='itemCategories'
+						name='newNeedCategory'
+						id='needCategories'
 						onChange={props.handleChange}>
 						{categoryChoices}
 					</select>
 					<br></br>
-					Description:
-					<input
-						className='newItemDescription'
-						type='text'
-						placeholder='New Item Description'
-						value={props.newItemDescription}
-						name='newItemDescription'
-						onChange={props.handleChange}></input>
-					<br></br>
 					<button
 						onClick={() => {
-							props.submitNewItem();
+							props.submitNewNeed();
 						}}>
-						Submit New Item to Trade Away
+						Submit New Need to Trade For
 					</button>
 				</div>
 			</div>
@@ -90,4 +80,4 @@ function Item(props) {
 	);
 }
 
-export default Item;
+export default Need;

@@ -6,6 +6,7 @@ import About from './components/About.js';
 import Trade from './components/Trade.js';
 import User from './components/User.js';
 import Item from './components/Item.js';
+import Need from './components/Need.js';
 
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
@@ -101,13 +102,18 @@ function App() {
 	const [tradeDataIndex, settradeDataIndex] = useState(0);
 
 	const [tierData, setTierData] = useState([]);
+	const [categoryData, setCategoryData] = useState([]);
+
 	const [itemData, setItemData] = useState([]);
 	const [newItemTier, setNewItemTier] = useState([]);
 	const [newItemCategory, setNewItemCategory] = useState([]);
 	const [newItemDescription, setNewItemDescription] = useState(null);
 	const [addItemHidden, setAddItemHidden] = useState('hidden');
 
-	const [categoryData, setCategoryData] = useState([]);
+	const [needData, setNeedData] = useState([]);
+	const [newNeedTier, setNewNeedTier] = useState([]);
+	const [newNeedCategory, setNewNeedCategory] = useState([]);
+	const [addNeedHidden, setAddNeedHidden] = useState('hidden');
 
 	// function to handle display for each url
 	const history = useHistory();
@@ -234,6 +240,12 @@ function App() {
 			case 'newItemDescription':
 				setNewItemDescription(event.target.value);
 				break;
+			case 'newNeedTier':
+				setNewNeedTier(event.target.value);
+				break;
+			case 'newNeedCategory':
+				setNewNeedCategory(event.target.value);
+				break;
 
 			default:
 				console.log('switch is broke');
@@ -356,6 +368,7 @@ function App() {
 			.then((data) => {
 				setCategoryData(data);
 				setNewItemCategory(data[0]._id);
+				setNewNeedCategory(data[0]._id);
 			})
 			.catch(function (error) {
 				setError(error);
@@ -374,6 +387,7 @@ function App() {
 			})
 			.then((data) => {
 				setNewItemTier(data[0]._id);
+				setNewNeedTier(data[0]._id);
 				// console.log(data);
 				return true;
 			})
@@ -383,6 +397,7 @@ function App() {
 
 		if (tierFetched) {
 			getItemData();
+			getNeedData();
 			// setNewItemTier(tierData[0]._id);
 		}
 	}
@@ -448,18 +463,64 @@ function App() {
 		}
 	}
 
+	/////////////////////////////////////
+
 	//GET need by user id
-	function getNeedById() {
+	function getNeedData() {
 		const url = `http://localhost:8080/api/need/${userId}`;
 		fetch(url)
 			.then((response) => response.json())
-			.then((response) => {
-				console.log(response);
+			.then((data) => {
+				setNeedData(data);
 			})
 			.catch(function (error) {
 				setError(error);
 			});
 	}
+
+	async function submitNewNeed() {
+		const url = `http://localhost:8080/api/tier/need/${newNeedTier}/${newNeedCategory}`;
+		const newNeed = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
+		})
+			.then((response) => response.json())
+			.catch(function (error) {
+				setError(error);
+			});
+
+		if (newNeed) {
+			getNeedData();
+		}
+	}
+
+	async function needDelete(needId) {
+		const url = `http://localhost:8080/api/need/${needId}`;
+		const needDeleted = await fetch(url, {
+			method: 'DELETE',
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
+		}).catch(function (error) {
+			setError(error);
+		});
+
+		if (needDeleted) {
+			getNeedData();
+		}
+	}
+
+	function toggleAddNeedHidden() {
+		if (addNeedHidden === 'hidden') {
+			setAddNeedHidden('');
+		} else {
+			setAddNeedHidden('hidden');
+		}
+	}
+
+	/////////////////////////////////////////
 
 	//TRADE FUNCTIONS
 
@@ -623,6 +684,20 @@ function App() {
 									submitNewItem={submitNewItem}
 									setNewItemTier={setNewItemTier}
 									setNewItemCategory={setNewItemCategory}
+									paperclipButtonClick={paperclipButtonClick}
+								/>
+								<Need
+									toggleAddNeedHidden={toggleAddNeedHidden}
+									addNeedHidden={addNeedHidden}
+									handleChange={handleChange}
+									categoryData={categoryData}
+									tierData={tierData}
+									needData={needData}
+									needDelete={needDelete}
+									getTierData={getTierData}
+									submitNewNeed={submitNewNeed}
+									setNewNeedTier={setNewNeedTier}
+									setNewNeedCategory={setNewNeedCategory}
 									paperclipButtonClick={paperclipButtonClick}
 								/>
 							</>
