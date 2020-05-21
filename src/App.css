@@ -1,11 +1,13 @@
 body {
- 
-  background-color: rgba(238, 4, 4, 0.726);
+	background-color: rgba(238, 4, 4, 0.726);
 }
 
-a {
+a,
+.delete,
+.add {
 	text-decoration: none;
-  color: white;
+	color: white;
+	cursor: pointer;
 }
 
 h2 {
@@ -47,13 +49,14 @@ h2 {
 	right: 20px;
 }
 
-
-
-
 .tradeDisplay {
 	position: absolute;
 	bottom: 15px;
 	right: 20px;
+}
+
+.newItemDescription {
+	width: 35%;
 }
 
 #yes {
@@ -69,6 +72,5 @@ h2 {
 }
 
 .hidden {
-  display: none;
+	display: none;
 }
-
