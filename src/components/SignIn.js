@@ -5,32 +5,35 @@ function SignIn(props) {
 	return (
 		<>
 			<Link to='/'>
-				<h1 name='signin' onClick={props.paperclipButtonClick}>
+				<h1 name='signin' onClick={props.paperclipButtonClick} className={props.hideSignIn ? 'hidden' : 'signinHeader'}>
 					paperclip
 				</h1>
 			</Link>
-			<div className={props.hideTrade ? 'hidden' : 'signin'}>
-				{' '}
-				<h1>Sign In</h1>
+			<div className={props.hideSignIn ? 'hidden' : 'signin'}>
+				<h2>Sign In</h2>
 				<form>
+					<label htmlFor='username'>Username</label>
 					<input
 						onChange={props.handleChange}
 						type='text'
 						placeholder='Username'
 						id='username'
+						name='username'
 					/>
-					<label htmlFor='username'>Username</label>
-
+					
+					<label htmlFor='password'>Password</label>
 					<input
 						onChange={props.handleChange}
 						type='password'
 						placeholder='Password'
 						id='password'
+						name='password'
 					/>
-					<label htmlFor='password'>Password</label>
-					<button onClick={props.runSubmit} type='submit'>
-						Sign Up
+					
+					<button onClick={props.runSubmit} type='submit' name='signIn'>
+						Sign In
 					</button>
+					<p className={props.isUserFound ? 'hidden' : ''}>User not found!</p>
 				</form>
 			</div>
 		</>

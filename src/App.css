@@ -8,13 +8,22 @@ a {
   color: white;
 }
 
-.header {
-	position: absolute;
-	left: 20px;
-	top: 20px;
+h2 {
+	font-weight: 900;
 }
 
-.data {
+.graphic {
+	position: absolute;
+	top: 45%;
+	left: 47%;
+}
+
+.graphicHolder {
+	text-align: center;
+}
+
+/* four corners */
+.header {
 	position: absolute;
 	left: 20px;
 	top: 20px;
@@ -28,14 +37,35 @@ a {
 
 .trade {
 	position: absolute;
-	bottom: 10px;
-	left: 10px;
+	bottom: 15px;
+	left: 20px;
 }
 
 .about {
 	position: absolute;
-	bottom: 10px;
-	right: 10px;
+	bottom: 15px;
+	right: 20px;
+}
+
+
+
+
+.tradeDisplay {
+	position: absolute;
+	bottom: 15px;
+	right: 20px;
+}
+
+#yes {
+	position: absolute;
+	top: 30%;
+	left: 48.2%;
+}
+
+#no {
+	position: absolute;
+	bottom: 33%;
+	left: 48.2%;
 }
 
 .hidden {

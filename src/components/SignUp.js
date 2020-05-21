@@ -5,12 +5,12 @@ function SignUp(props) {
 	return (
 		<>
 			<Link to='/'>
-				<h1 name='signup' onClick={props.paperclipButtonClick}>
+				<h1 name='signup' onClick={props.paperclipButtonClick} className={props.hideSignIn ? 'hidden' : 'signupHeader'}>
 					paperclip
 				</h1>
 			</Link>
-			<div className={props.hideTrade ? 'hidden' : 'signup'}>
-				<h1>Sign Up</h1>
+			<div className={props.hideSignUp ? 'hidden' : 'signup'}>
+				<h2>Sign Up</h2>
 				<form>
 					<label htmlFor='email'>Email</label>
 					<input
@@ -46,10 +46,10 @@ function SignUp(props) {
 						id='passwordConfirm'
 						name='confirmPassword'
 					/>
-					<button onClick={props.runSubmit} type='submit'>
+					<button onClick={props.runSubmit} type='submit' name="signUp">
 						Sign Up
 					</button>
-					<p>Passwords must match.</p>
+					<p className={props.isPasswordValid ? 'hidden' : ''}>Passwords must match!</p>
 				</form>
 			</div>
 		</>
