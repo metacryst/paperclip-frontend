@@ -11,6 +11,8 @@ import Need from './components/Need.js';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 
+import Cycle from './components/Cycle'
+
 //REMEMBER TO UNCOMMENT THE REFRESH WORKAROUND BEFORE DEPLOYING
 
 function App() {
@@ -50,6 +52,7 @@ function App() {
 	const [newItemCategory, setNewItemCategory] = useState([]);
 	const [newItemDescription, setNewItemDescription] = useState(null);
 	const [addItemHidden, setAddItemHidden] = useState('hidden');
+	const [todoData, setTodoData] = useState('')
 
 	const [needData, setNeedData] = useState([]);
 	const [newNeedTier, setNewNeedTier] = useState([]);
@@ -356,6 +359,19 @@ function App() {
 			});
 	}
 
+	//Get Todos
+	function getTodoData() {
+		const url = `http://localhost:8080/api/cycle/${userId}`;
+		fetch(url)
+			.then((response) => response.json())
+			.then((data) => {
+				setTodoData(data);
+			})
+			.catch(function (error) {
+				setError(error);
+			});
+	}
+
 	async function submitNewItem() {
 		const url = `http://localhost:8080/api/tier/item/${newItemTier}/${newItemCategory}`;
 		const newItemBody = {
@@ -586,7 +602,7 @@ function App() {
 											trade
 										</h2>
 									</Link>
-									<Link to='/about'>
+									<Link to='/link'>
 										<h2
 											onClick={cornerButtonClick}
 											className='about'
@@ -718,6 +734,23 @@ function App() {
 							</>
 						);
 					}}
+				/>
+				<Route
+				path='/link'
+				render={()=>{
+					return(
+						<>
+						<Link to='/'>
+							<h1 className='header'>paperclip</h1>
+						</Link>
+							<Cycle
+							getTodoData={getTodoData}
+							useEffect={useEffect}
+							todoData={todoData}
+						/>	
+						</>
+					)
+				}}
 				/>
 			</main>
 		</div>
