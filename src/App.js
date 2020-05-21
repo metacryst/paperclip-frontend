@@ -11,6 +11,9 @@ import Need from './components/Need.js';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 
+import Cycle from './components/Cycle'
+
+
 function App() {
 	const [error, setError] = useState('');
 
@@ -57,6 +60,9 @@ function App() {
 	const [newNeedTier, setNewNeedTier] = useState([]);
 	const [newNeedCategory, setNewNeedCategory] = useState([]);
 	const [addNeedHidden, setAddNeedHidden] = useState('hidden');
+	
+	const [todoData, setTodoData] = useState('')
+
 
 	// function to handle display for each url
 	const history = useHistory();
@@ -106,6 +112,9 @@ function App() {
 					setHideNav(true);
 					setHideSignUp(false);
 					break;
+					
+				case `/${username}`: 
+					// setHideNav(true)
 			}
 		});
 	}, [history]);
@@ -586,6 +595,20 @@ function App() {
 	
 	
 	
+	// CYCLE FUNCTION
+	
+	function getTodoData() {
+		const url = `http://localhost:8080/api/cycle/${userId}`;
+		fetch(url)
+			.then((response) => response.json())
+			.then((data) => {
+				setTodoData(data);
+			})
+			.catch(function (error) {
+				setError(error);
+			});
+	}
+	
 
 	// A P I   I N T E R A C T I O N S
 	//
@@ -712,7 +735,10 @@ function App() {
 						return (
 							<>
 								<Link to='/'>
-									<h1 className='header'>paperclip//</h1>
+									<h1 className={hideTrade ? 'hidden' : 'header'}
+										name='trade'
+										onClick={paperclipButtonClick}>paperclip//trade
+									</h1>
 								</Link>
 								<Trade
 									getUserLinks={getUserLinks}
