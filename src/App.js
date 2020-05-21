@@ -55,7 +55,6 @@ function App() {
 	const [newItemCategory, setNewItemCategory] = useState([]);
 	const [newItemDescription, setNewItemDescription] = useState('');
 	const [addItemHidden, setAddItemHidden] = useState('hidden');
-	const [todoData, setTodoData] = useState('')
 
 	const [needData, setNeedData] = useState([]);
 	const [newNeedTier, setNewNeedTier] = useState([]);
@@ -636,9 +635,11 @@ function App() {
 		<div className='wrapper' id='grad'>
 			<main>
 				<div className='graphicHolder'>
-					<p className='graphic'>
-						=======<br></br>=====
-					</p>
+					<Link to="/link">
+						<p className='graphic'>
+							=======<br></br>=====
+						</p>
+					</Link>
 				</div>
 				<Route
 					path='/'
@@ -660,7 +661,7 @@ function App() {
 											trade
 										</h2>
 									</Link>
-									<Link to='/link'>
+									<Link to='/about'>
 										<h2
 											onClick={cornerButtonClick}
 											className='about'
