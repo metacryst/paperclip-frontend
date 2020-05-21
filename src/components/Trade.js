@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Trade(props) {
 	useEffect(() => {
-		console.log('useEffect');
+		console.log('useeffecting');
 		props.getUserLinks();
 		// eslint-disable-next-line
 	}, []);

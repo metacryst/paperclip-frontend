@@ -49,15 +49,39 @@ h2 {
 	right: 20px;
 }
 
+
+
+
+
+
 .tradeDisplay {
 	position: absolute;
 	bottom: 15px;
 	right: 20px;
 }
 
+
+
+.itemsContainer {
+	position: absolute;
+	left: 25%;
+	top: 65%;
+}
+
+.needsContainer {
+	position: absolute;
+	left: 25%;
+	top: 65%;
+	left: 70%;
+	top: 20%;
+}
+
 .newItemDescription {
 	width: 35%;
 }
+
+
+
 
 #yes {
 	position: absolute;

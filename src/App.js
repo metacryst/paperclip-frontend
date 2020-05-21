@@ -11,8 +11,6 @@ import Need from './components/Need.js';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 
-//REMEMBER TO UNCOMMENT THE REFRESH WORKAROUND BEFORE DEPLOYING
-
 function App() {
 	const [error, setError] = useState('');
 
@@ -22,33 +20,37 @@ function App() {
 	const [hideSignUp, setHideSignUp] = useState(true);
 	const [hideAbout, setHideAbout] = useState(true);
 	const [hideTrade, setHideTrade] = useState(true);
+	
+	const [hideInventory, setHideInventory] = useState(true)
 
 	//hook for display of the nav menu itself
 	const [hideNav, setHideNav] = useState(false);
 
 	// hooks for login and sign up
-	const [email, setEmail] = useState('');
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setconfirmPassword] = useState('');
+	const [email, setEmail] = useState(null);
+	const [username, setUsername] = useState(null);
+	const [password, setPassword] = useState(null);
+	const [confirmPassword, setconfirmPassword] = useState(null);
 
 	const [isPasswordValid, setisPasswordValid] = useState(true);
 	const [isUserFound, setIsUserFound] = useState(true);
 
 	//hook for storing current user info
+	//ideally this would be in local storage so refreshing wouldn't break everything
 	const [userId, setUserId] = useState('');
 
 	//hook for trade options/link data/array of links with 0 value
 	const [tradeData, settradeData] = useState(['']);
 	const [tradeDataIndex, settradeDataIndex] = useState(0);
-
+	
+	//hooks for user items screen
 	const [tierData, setTierData] = useState([]);
 	const [categoryData, setCategoryData] = useState([]);
-
+	
 	const [itemData, setItemData] = useState([]);
 	const [newItemTier, setNewItemTier] = useState([]);
 	const [newItemCategory, setNewItemCategory] = useState([]);
-	const [newItemDescription, setNewItemDescription] = useState(null);
+	const [newItemDescription, setNewItemDescription] = useState('');
 	const [addItemHidden, setAddItemHidden] = useState('hidden');
 
 	const [needData, setNeedData] = useState([]);
@@ -109,12 +111,12 @@ function App() {
 	}, [history]);
 
 	// BUG WORKAROUND FOR DEPLOYMENT, FIX THE FACT THAT REFRESH CHANGES STATE
-	// window.onload = (() => {
-	// 	// console.log('window onloading');
-	// 	if(window.location.pathname != '/') {
-	// 		window.location.assign('/')
-	// 	}
-	// })
+	window.onload = (() => {
+		// console.log('window onloading');
+		if(window.location.pathname != '/') {
+			window.location.assign('/')
+		}
+	})
 
 	function cornerButtonClick(event) {
 		if (event.target.getAttribute('name') === 'user') {
@@ -195,17 +197,24 @@ function App() {
 
 	let signUpInformation;
 	let signInInformation;
+	
+	function checkSubmit(event) {
+		event.preventDefault()
+		console.log('checking submit');
+		
+		if (username === null) {
+			return;
+		}
+		if (password === null) {
+			return;
+		} else {
+			runSubmit(event)
+		}
+	}
 
 	function runSubmit(event) {
-		event.preventDefault();
-
-		if (username === '') {
-			return;
-		}
-		if (password === '') {
-			return;
-		}
-
+		event.preventDefault()
+		
 		signUpInformation = {
 			email: email,
 			userName: username,
@@ -260,10 +269,11 @@ function App() {
 				setUserId(data._id);
 			})
 			.then(() => {
-				setEmail('');
-				setUsername('');
-				setPassword('');
-				setconfirmPassword('');
+				setPassword(null);
+				setconfirmPassword(null);
+				setHideSignIn(true);
+				setHideInventory(false);
+				history.push(`/${username}`)
 			});
 	}
 
@@ -292,17 +302,37 @@ function App() {
 				// if not, call a function that will reset the state?
 			})
 			.then(() => {
-				setEmail('');
-				setUsername('');
-				setPassword('');
-				setconfirmPassword('');
+				setPassword(null);
+				setconfirmPassword(null);
+				setHideSignIn(true);
+				setHideInventory(false);
+				history.push(`/${username}`)
 			});
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//USER SCREEN FUNCTIONS
 
 	function getCategoryData() {
-		console.log('hi');
 		const url = `http://localhost:8080/api/category`;
 		fetch(url)
 			.then((response) => response.json())
@@ -406,7 +436,6 @@ function App() {
 
 	/////////////////////////////////////
 
-	//GET need by user id
 	function getNeedData() {
 		const url = `http://localhost:8080/api/need/${userId}`;
 		fetch(url)
@@ -462,7 +491,12 @@ function App() {
 	}
 
 	/////////////////////////////////////////
-
+	// 
+	// 	
+	// 
+	// 
+	// 
+	// 
 	//TRADE FUNCTIONS
 
 	function getUserLinks() {
@@ -549,6 +583,9 @@ function App() {
 				console.log(data);
 			});
 	}
+	
+	
+	
 
 	// A P I   I N T E R A C T I O N S
 	//
@@ -594,13 +631,21 @@ function App() {
 											about
 										</h2>
 									</Link>
-									<Link to='/user'>
+									
+									<Link to={username ? `${username}` : 'user'}>
 										<h2
 											onClick={cornerButtonClick}
-											className='user'
+											className={username ? 'hidden' : 'user'}
 											name='user'>
 											user
 										</h2>
+										<h2
+											onClick={cornerButtonClick}
+											className={username ? 'user' : 'hidden'}
+											name='user'>
+											{username}
+										</h2>
+										
 									</Link>
 								</div>
 							</>
@@ -621,10 +666,13 @@ function App() {
 					}}
 				/>
 				<Route
-					path='/inventory'
+					path={'/' + username}
 					render={() => {
 						return (
 							<>
+								<Link to='/'>
+									<h1 className='header'>paperclip//{username}</h1>
+								</Link>
 								<Item
 									toggleAddItemHidden={toggleAddItemHidden}
 									addItemHidden={addItemHidden}
@@ -664,7 +712,7 @@ function App() {
 						return (
 							<>
 								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
+									<h1 className='header'>paperclip//</h1>
 								</Link>
 								<Trade
 									getUserLinks={getUserLinks}
@@ -682,7 +730,7 @@ function App() {
 						return (
 							<>
 								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
+									<h1 className='header'>paperclip//</h1>
 								</Link>
 								<About />
 							</>
@@ -696,7 +744,7 @@ function App() {
 							<>
 								<SignUp
 									handleChange={handleChange}
-									runSubmit={runSubmit}
+									checkSubmit={checkSubmit}
 									hideSignUp={hideSignUp}
 									isPasswordValid={isPasswordValid}
 								/>
@@ -711,7 +759,7 @@ function App() {
 							<>
 								<SignIn
 									handleChange={handleChange}
-									runSubmit={runSubmit}
+									checkSubmit={checkSubmit}
 									hideSignIn={hideSignIn}
 									isUserFound={isUserFound}
 								/>
