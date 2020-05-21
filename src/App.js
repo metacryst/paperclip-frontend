@@ -1,26 +1,20 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Link, useHistory } from 'react-router-dom';
 import './App.css';
 
-import Users from './components/data/Users.js';
-import Categories from './components/data/Categories.js';
-import Items from './components/data/Items.js';
-import Needs from './components/data/Needs.js';
-import Tiers from './components/data/Tiers.js';
-import Links from './components/data/Links.js';
-import SignIn from './components/SignIn'
-import SignUp from './components/SignUp';
 
 import About from './components/About.js';
 import Trade from './components/Trade.js';
 import User from './components/User.js';
 
+import SignIn from './components/SignIn'
+import SignUp from './components/SignUp';
 
+
+
+//REMEMBER TO UNCOMMENT THE REFRESH WORKAROUND BEFORE DEPLOYING
 
 function App() {
-	// hooks for api calls
-	const [usersData, setUsersData] = useState([]);
-	const [apiLink, setApiData] = useState([]);
 	const [error, setError] = useState('');
 
 	// hooks for the display of every component in nav menu
@@ -120,9 +114,6 @@ const [tradeDataIndex, settradeDataIndex] = useState(0);
 			// settradeDataIndex(1)
 			// console.log(tradeDataIndex);
 			
-
-			
-			
 	    // eslint-disable-next-line default-case
 	    switch (location.pathname) {
 				case '/':
@@ -172,6 +163,7 @@ const [tradeDataIndex, settradeDataIndex] = useState(0);
 	// 		window.location.assign('/')
 	// 	}
 	// })
+	
 
   function cornerButtonClick (event) {    
       if(event.target.getAttribute('name') === 'user') {
@@ -204,7 +196,19 @@ const [tradeDataIndex, settradeDataIndex] = useState(0);
     }
   }
 
-  // Sign in/ Sign Up
+	
+	
+	
+	
+// A P I   I N T E R A C T I O N S
+// 
+// 
+// 
+// 
+// 
+// A P I   I N T E R A C T I O N S
+
+ 
 function handleChange (event) {
 	// eslint-disable-next-line default-case
 	// console.log('handling change');
@@ -222,6 +226,9 @@ function handleChange (event) {
 		case 'confirmPassword':
 			setconfirmPassword(event.target.value)
 			break;
+			
+		default:
+			console.log('switch is broke');
 		
 	}
 }
@@ -264,6 +271,9 @@ function runSubmit(event){
 		case 'signIn':
 			signIn()
 			break;
+			
+		default:
+			console.log('switch is broke');
 	}
 }
 
@@ -300,7 +310,6 @@ function signUp (body) {
 }
 
 function signIn (body) {
-	// POST request using fetch inside useEffect React hook	
 	const requestOptions = {
 		method: 'GET',
 		headers: { 'Content-Type': 'application/json' },
@@ -332,36 +341,126 @@ function signIn (body) {
 	
 }
 
+//USER SCREEN FUNCTIONS
+
+	//GET item by user id
+	function getItemData() {
+		const url = `http://localhost:8080/api/item/${userId}`;
+		fetch(url)
+			.then((response) => response.json())
+			.then((response) => {
+				console.log(response);
+			})
+			.catch(function (error) {
+				setError(error);
+			});
+	}
+
+	//GET need by user id
+	function getNeedById() {
+		const url = `http://localhost:8080/api/need/${userId}`;
+		fetch(url)
+			.then((response) => response.json())
+			.then((response) => {
+				console.log(response);
+			})
+			.catch(function (error) {
+				setError(error);
+			});
+	}
 	
 
 
 //TRADE FUNCTIONS
+
+function getUserLinks() {
+	
+}
 
 function decisionButtonClick(event, nextIndex) {
 	switch(event.target.id) {
 		case 'yes':
 			// console.log('yes');
 			// console.log(nextIndex);
-			settradeDataIndex(nextIndex);
 			// console.log(tradeDataIndex);
 			// console.log(tradeData[tradeDataIndex].item.description);
-			
+			decideTrade('yes', nextIndex - 1)
+			settradeDataIndex(nextIndex);
 			break;
 			
 		case 'no':
 			// console.log('no');
 			// console.log(nextIndex);
-			settradeDataIndex(nextIndex);
 			// console.log(tradeDataIndex);
 			// console.log(tradeData[tradeDataIndex].item.description);
-			
+			decideTrade('no', nextIndex - 1)
+			settradeDataIndex(nextIndex);
 			break;
+			
+		default:
+			console.log('switch is broke');
 	}
 	
 }
 
+let linkUpdateInformation
+
+//PUT to update links with trade decisions
+function decideTrade(decision, linkIndex) {
+	console.log('trade decided');
+	// console.log(tradeData[0].confirmed)
+	
+	let linkId = tradeData[linkIndex]._id
+	console.log(linkId);
+	
+	
+	linkUpdateInformation = {
+		confirmation: 0
+	}
+	console.log(linkUpdateInformation);
+	
+	
+	switch(decision) {
+		case 'yes':
+			linkUpdateInformation.confirmation = 1;
+			console.log(linkUpdateInformation);
+			break;
+			
+		case 'no':
+			linkUpdateInformation.confirmation = -1;
+			console.log(linkUpdateInformation);
+			break;
+			
+		default:
+			console.log('switch is broke');
+	}
+	// create an object for trade link and update confirmed value to -1 or 0 based on the value that's passed as a variable into this function
+	//put the trade link into the body
+	
+	const requestOptions = {
+		method: 'PATCH',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(linkUpdateInformation),
+	};
+	
+	fetch(`http://localhost:8080/api/link/${linkId}/confirm`, requestOptions)
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data)
+		})
+
+	
+	
+}
 
 
+// A P I   I N T E R A C T I O N S
+// 
+// 
+// 
+// 
+// 
+// A P I   I N T E R A C T I O N S
 
 
 
