@@ -39,66 +39,7 @@ function App() {
 	const [userId, setUserId] = useState('');
 
 	//hook for trade options/link data/array of links with 0 value
-	const [tradeData, settradeData] = useState([
-		{
-			_id: '5ec5a93e60c031c391d8a9a3',
-			need: {
-				_id: '5ec5a93e60c031c391d8a99e',
-				tier: {
-					_id: '5ec5a92d60c031c391d8a98c',
-					rank: 1,
-					user: '5ec5a8f660c031c391d8a982',
-					__v: 0,
-				},
-				category: '5ec1ec3f82d704182c97a422',
-				__v: 0,
-			},
-			item: {
-				_id: '5ec5a93660c031c391d8a997',
-				picture: 'pic',
-				description: 'some flour',
-				tier: {
-					_id: '5ec5a92d60c031c391d8a98e',
-					rank: 2,
-					user: '5ec5a8f660c031c391d8a985',
-					__v: 0,
-				},
-				category: '5ec1ec3f82d704182c97a422',
-				__v: 0,
-			},
-			confirmed: 0,
-			__v: 0,
-		},
-		{
-			_id: 'n3s8d',
-			need: {
-				_id: '5ec5a93e60c031c391d8a99e',
-				tier: {
-					_id: '5ec5a92d60c031c391d8a98c',
-					rank: 1,
-					user: '5ec5a8f660c031c391d8a982',
-					__v: 0,
-				},
-				category: '5ec1ec3f82d704182c97a422',
-				__v: 0,
-			},
-			item: {
-				_id: '5ec5a93660c031c391d8a997',
-				picture: 'pic',
-				description: 'spongy cakey',
-				tier: {
-					_id: '5ec5a92d60c031c391d8a98e',
-					rank: 2,
-					user: '5ec5a8f660c031c391d8a985',
-					__v: 0,
-				},
-				category: '5ec1ec3f82d704182c97a422',
-				__v: 0,
-			},
-			confirmed: 0,
-			__v: 0,
-		},
-	]);
+	const [tradeData, settradeData] = useState(['']);
 	const [tradeDataIndex, settradeDataIndex] = useState(0);
 
 	const [tierData, setTierData] = useState([]);
@@ -524,7 +465,20 @@ function App() {
 
 	//TRADE FUNCTIONS
 
-	function getUserLinks() {}
+	function getUserLinks() {
+		// settradeData
+		console.log('about to call');
+		const url = `http://localhost:8080/api/link/${userId}/unconfirmed`;
+		fetch(url)
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				settradeData(data);
+			})
+			.catch(function (error) {
+				setError(error);
+			});
+	}
 
 	function decisionButtonClick(event, nextIndex) {
 		switch (event.target.id) {
@@ -624,7 +578,7 @@ function App() {
 											paperclip//
 										</h1>
 									</Link>
-									<Link to='/inventory'>
+									<Link to='/trade'>
 										<h2
 											onClick={cornerButtonClick}
 											className='trade'
@@ -713,6 +667,7 @@ function App() {
 									<h1 className='header'>paperclip</h1>
 								</Link>
 								<Trade
+									getUserLinks={getUserLinks}
 									tradeData={tradeData}
 									decisionButtonClick={decisionButtonClick}
 									tradeDataIndex={tradeDataIndex}
