@@ -40,6 +40,7 @@ function App() {
 	const [confirmPassword, setconfirmPassword] = useState('');
 	
 	const [isPasswordValid, setisPasswordValid] = useState(true)
+	const [isUserFound, setIsUserFound] = useState(true)
 	
 	//hook for storing current user info
 	const [userId, setUserId] = useState('');
@@ -303,22 +304,30 @@ function signIn (body) {
 	const requestOptions = {
 		method: 'GET',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(signInInformation),
 	};
 	
 	console.log(requestOptions)
 	
-	fetch(`http://localhost:8080/api/user/${username}/signin`, requestOptions)
+	fetch(`http://localhost:8080/api/user/${username}/name`, requestOptions)
 		.then((response) => response.json())
 		.then((data) => {
 			console.log(data)
-			setPostId(data.id)})
+			if(data) {
+				setPostId(data.id)
+				setUserId(data._id)
+				setIsUserFound(true)
+			} else {
+				// console.log('bad user');
+				setIsUserFound(false)
+			}
+			// check response to see if the info was good
+			// if not, call a function that will reset the state?
+		})
 		.then(() => {
 			setEmail('')
 			setUsername('')
 			setPassword('')
 			setconfirmPassword('')
-			setUserId(userId)
 		})
 	
 }
@@ -457,7 +466,7 @@ function decisionButtonClick(event, nextIndex) {
 					render={() => {
 						return (
 							<>
-								<SignIn handleChange={handleChange} runSubmit={runSubmit} hideSignIn={hideSignIn} />
+								<SignIn handleChange={handleChange} runSubmit={runSubmit} hideSignIn={hideSignIn} isUserFound={isUserFound}/>
 							</>
 						);
 					}}

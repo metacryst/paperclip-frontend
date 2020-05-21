@@ -29,9 +29,11 @@ function SignIn(props) {
 						id='password'
 						name='password'
 					/>
+					
 					<button onClick={props.runSubmit} type='submit' name='signIn'>
 						Sign In
 					</button>
+					<p className={props.isUserFound ? 'hidden' : ''}>User not found!</p>
 				</form>
 			</div>
 		</>
