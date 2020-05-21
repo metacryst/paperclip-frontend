@@ -24,3 +24,4 @@ function Cycle(props) {
 //sort by urgency (email person at top)
 
 export default Cycle;
+
