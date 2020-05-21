@@ -29,12 +29,6 @@ h2 {
 	top: 20px;
 }
 
-.data {
-	position: absolute;
-	left: 20px;
-	top: 20px;
-}
-
 .user {
 	position: absolute;
 	right: 20px;
@@ -51,6 +45,27 @@ h2 {
 	position: absolute;
 	bottom: 15px;
 	right: 20px;
+}
+
+
+
+
+.tradeDisplay {
+	position: absolute;
+	bottom: 15px;
+	right: 20px;
+}
+
+#yes {
+	position: absolute;
+	top: 30%;
+	left: 48.2%;
+}
+
+#no {
+	position: absolute;
+	bottom: 33%;
+	left: 48.2%;
 }
 
 .hidden {

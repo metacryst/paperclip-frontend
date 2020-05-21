@@ -15,6 +15,8 @@ import About from './components/About.js';
 import Trade from './components/Trade.js';
 import User from './components/User.js';
 
+
+
 function App() {
 	// hooks for api calls
 	const [usersData, setUsersData] = useState([]);
@@ -26,7 +28,10 @@ function App() {
   const [hideSignIn, setHideSignIn] = useState(true)
   const [hideSignUp, setHideSignUp] = useState(true)
   const [hideAbout, setHideAbout] = useState(true);
-  const [hideTrade, setHideTrade] = useState(true);
+	const [hideTrade, setHideTrade] = useState(true);
+	
+	//hook for display of the nav menu itself
+	const [hideNav, setHideNav] = useState(false)
 	
 	// hooks for login and sign up
   const [email, setEmail] = useState('');
@@ -34,13 +39,74 @@ function App() {
   const [password, setPassword] = useState('');
 	const [confirmPassword, setconfirmPassword] = useState('');
 	
+	const [isPasswordValid, setisPasswordValid] = useState(true)
+	
 	//hook for storing current user info
 	const [userId, setUserId] = useState('');
-
-	//hook for display of the nav menu itself
-  const [hideNav, setHideNav] = useState(false)
-
 	
+	//hook for trade options/link data/array of links with 0 value
+	const [tradeData, settradeData] = useState([
+    {
+        "_id": "5ec5a93e60c031c391d8a9a3",
+        "need": {
+            "_id": "5ec5a93e60c031c391d8a99e",
+            "tier": {
+                "_id": "5ec5a92d60c031c391d8a98c",
+                "rank": 1,
+                "user": "5ec5a8f660c031c391d8a982",
+                "__v": 0
+            },
+            "category": "5ec1ec3f82d704182c97a422",
+            "__v": 0
+        },
+        "item": {
+            "_id": "5ec5a93660c031c391d8a997",
+            "picture": "pic",
+            "description": "some flour",
+            "tier": {
+                "_id": "5ec5a92d60c031c391d8a98e",
+                "rank": 2,
+                "user": "5ec5a8f660c031c391d8a985",
+                "__v": 0
+            },
+            "category": "5ec1ec3f82d704182c97a422",
+            "__v": 0
+        },
+        "confirmed": 0,
+        "__v": 0
+		},
+		{
+			"_id": "n3s8d",
+			"need": {
+					"_id": "5ec5a93e60c031c391d8a99e",
+					"tier": {
+							"_id": "5ec5a92d60c031c391d8a98c",
+							"rank": 1,
+							"user": "5ec5a8f660c031c391d8a982",
+							"__v": 0
+					},
+					"category": "5ec1ec3f82d704182c97a422",
+					"__v": 0
+			},
+			"item": {
+					"_id": "5ec5a93660c031c391d8a997",
+					"picture": "pic",
+					"description": "spongy cakey",
+					"tier": {
+							"_id": "5ec5a92d60c031c391d8a98e",
+							"rank": 2,
+							"user": "5ec5a8f660c031c391d8a985",
+							"__v": 0
+					},
+					"category": "5ec1ec3f82d704182c97a422",
+					"__v": 0
+			},
+			"confirmed": 0,
+			"__v": 0
+	}
+])
+const [tradeDataIndex, settradeDataIndex] = useState(0);
+
 	
 	// function to handle display for each url
 	const history = useHistory()
@@ -49,6 +115,11 @@ function App() {
 	  return history.listen(location => {
 			// console.log(location.pathname);
 			// console.log('useffecting');
+			// console.log(tradeData);
+			// settradeDataIndex(1)
+			// console.log(tradeDataIndex);
+			
+
 			
 			
 	    // eslint-disable-next-line default-case
@@ -93,9 +164,9 @@ function App() {
 	}, [history])
 	
 	
-	// BUG WORKAROUND FOR DEPLOYMENT, REFRESH CHANGES STATE
+	// BUG WORKAROUND FOR DEPLOYMENT, FIX THE FACT THAT REFRESH CHANGES STATE
 	// window.onload = (() => {
-	// 	console.log('window onloading');
+	// 	// console.log('window onloading');
 	// 	if(window.location.pathname != '/') {
 	// 		window.location.assign('/')
 	// 	}
@@ -105,17 +176,14 @@ function App() {
       if(event.target.getAttribute('name') === 'user') {
         setHideUser(false)
         setHideNav(true)
-        console.log(hideUser);
       }
       if(event.target.getAttribute('name') === 'about') {
         setHideAbout(false)
         setHideNav(true)
-        console.log(hideUser);
       }
       if(event.target.getAttribute('name') === 'trade') {
         setHideTrade(false)
         setHideNav(true)
-        console.log(hideUser);
       }
   }
 	
@@ -163,6 +231,13 @@ let signInInformation
 function runSubmit(event){
 	event.preventDefault()
 	
+	if(username === '') {
+		return
+	}
+	if(password === '') {
+		return
+	}
+	
 	signUpInformation = {
 		email: email,
 		userName: username,
@@ -172,12 +247,19 @@ function runSubmit(event){
 		userName: username,
 		password: password
 	}
-	console.log(signInInformation)
+	// console.log(signUpInformation);
+	// console.log(signInInformation)
+	
 	
 	switch(event.target.name) {
 		case 'signUp':
-			signUp()
+			const match = confirmPassword === password;
+			setisPasswordValid(match);
+			if(match) {
+				signUp()
+			}
 			break;
+			
 		case 'signIn':
 			signIn()
 			break;
@@ -199,19 +281,19 @@ function signUp (body) {
 	};
 	
 	console.log(requestOptions)
-	let userId = ''
 	
 	fetch('http://localhost:8080/api/user', requestOptions)
 		.then((response) => response.json())
 		.then((data) => {
 			console.log(data)
-			setPostId(data.id)})
+			setPostId(data.id)
+			setUserId(data._id)
+		})
 		.then(() => {
 			setEmail('')
 			setUsername('')
 			setPassword('')
-			setconfirmPassword('')
-			setUserId(userId)
+			setconfirmPassword('')			
 		})
 	
 }
@@ -225,7 +307,6 @@ function signIn (body) {
 	};
 	
 	console.log(requestOptions)
-	let userId = ''
 	
 	fetch(`http://localhost:8080/api/user/${username}/signin`, requestOptions)
 		.then((response) => response.json())
@@ -242,26 +323,38 @@ function signIn (body) {
 	
 }
 
+	
 
-	//API CALL
-	function getUsersData() {
-		const url = `http://localhost:8080/api/${apiLink}`;
-		console.log(apiLink);
 
-		fetch(url)
-			.then((response) => response.json())
-			.then((response) => {
-				setUsersData(response);
-			})
-			.catch(function (error) {
-				setError(error);
-			});
+//TRADE FUNCTIONS
+
+function decisionButtonClick(event, nextIndex) {
+	switch(event.target.id) {
+		case 'yes':
+			// console.log('yes');
+			// console.log(nextIndex);
+			settradeDataIndex(nextIndex);
+			// console.log(tradeDataIndex);
+			// console.log(tradeData[tradeDataIndex].item.description);
+			
+			break;
+			
+		case 'no':
+			// console.log('no');
+			// console.log(nextIndex);
+			settradeDataIndex(nextIndex);
+			// console.log(tradeDataIndex);
+			// console.log(tradeData[tradeDataIndex].item.description);
+			
+			break;
 	}
+	
+}
 
-	// display api data by loading into state
-	function navButtonClick(event) {
-		setApiData(event.target.getAttribute('name'));
-	}
+
+
+
+
 
 	return (
 		<div className='wrapper' id='grad'>
@@ -331,7 +424,7 @@ function signIn (body) {
 								<Link to='/'>
 									<h1 className='header'>paperclip</h1>
 								</Link>
-								<Trade />
+								<Trade tradeData={tradeData} decisionButtonClick={decisionButtonClick} tradeDataIndex={tradeDataIndex}/>
 							</>
 						);
 					}}
@@ -350,148 +443,21 @@ function signIn (body) {
 					}}
 				/>
 				<Route
+					path='/signup'
+					render={() => {
+						return (
+							<>
+								<SignUp handleChange={handleChange} runSubmit={runSubmit} hideSignUp={hideSignUp} isPasswordValid={isPasswordValid}/>
+							</>
+						);
+					}}
+				/>
+				<Route
 					path='/signin'
 					render={() => {
 						return (
 							<>
 								<SignIn handleChange={handleChange} runSubmit={runSubmit} hideSignIn={hideSignIn} />
-							</>
-						);
-					}}
-				/>
-				<Route
-					path='/signup'
-					render={() => {
-						return (
-							<>
-								<SignUp handleChange={handleChange} runSubmit={runSubmit} hideSignUp={hideSignUp}/>
-							</>
-						);
-					}}
-				/>
-				<Route
-					path='/data'
-					exact={true}
-					render={() => {
-						return (
-							<>
-								<Link to='/users'>
-									<h2 className='users' onClick={navButtonClick} name='user'>
-										users
-									</h2>
-								</Link>
-								<Link to='/tiers'>
-									<h2 className='tiers' onClick={navButtonClick} name='tier'>
-										tiers
-									</h2>
-								</Link>
-								<Link to='/categories'>
-									<h2
-										className='categories'
-										onClick={navButtonClick}
-										name='category'>
-										categories
-									</h2>
-								</Link>
-								<Link to='/items'>
-									<h2 className='items' onClick={navButtonClick} name='item'>
-										items
-									</h2>
-								</Link>
-								<Link to='/needs'>
-									<h2 className='needs' onClick={navButtonClick} name='need'>
-										needs
-									</h2>
-								</Link>
-								<Link to='/links'>
-									<h2 className='links' onClick={navButtonClick} name='link'>
-										links
-									</h2>
-								</Link>
-							</>
-						);
-					}}
-				/>
-
-				<Route
-					path='/users'
-					render={() => {
-						return (
-							<>
-								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
-								</Link>
-								<Users usersData={usersData} getUsersData={getUsersData} />
-							</>
-						);
-					}}
-				/>
-
-				<Route
-					path='/tiers'
-					render={() => {
-						return (
-							<>
-								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
-								</Link>
-								<Tiers usersData={usersData} getUsersData={getUsersData} />
-							</>
-						);
-					}}
-				/>
-
-				<Route
-					path='/categories'
-					render={() => {
-						return (
-							<>
-								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
-								</Link>
-								<Categories usersData={usersData} getUsersData={getUsersData} />
-							</>
-						);
-					}}
-				/>
-
-				<Route
-					path='/items'
-					render={() => {
-						return (
-							<>
-								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
-								</Link>
-								<Items usersData={usersData} getUsersData={getUsersData} />
-							</>
-						);
-					}}
-				/>
-
-				<Route
-					path='/needs'
-					render={() => {
-						return (
-							<>
-								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
-								</Link>
-								<Needs usersData={usersData} getUsersData={getUsersData} />
-							</>
-						);
-					}}
-				/>
-
-				<Route
-					path='/links'
-					render={() => {
-						return (
-							<>
-								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
-								</Link>
-								<Links usersData={usersData} getUsersData={getUsersData} />
 							</>
 						);
 					}}

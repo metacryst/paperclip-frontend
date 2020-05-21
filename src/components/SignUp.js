@@ -49,7 +49,7 @@ function SignUp(props) {
 					<button onClick={props.runSubmit} type='submit' name="signUp">
 						Sign Up
 					</button>
-					<p>Passwords must match.</p>
+					<p className={props.isPasswordValid ? 'hidden' : ''}>Passwords must match!</p>
 				</form>
 			</div>
 		</>
