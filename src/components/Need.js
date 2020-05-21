@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 function Need(props) {
 	const needs = [...props.needData];
@@ -41,7 +40,7 @@ function Need(props) {
 	}, []);
 
 	return (
-		<div>
+		<div className="needsContainer">
 			<h1>Needs</h1>
 			<div>
 				<span
