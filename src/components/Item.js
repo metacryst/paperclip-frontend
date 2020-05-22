@@ -27,11 +27,11 @@ function Item(props) {
 		);
 	});
 	const tierChoices = props.tierData.map((tier) => {
-		return <option value={tier._id}>Tier {tier.rank}</option>;
+		return <option value={tier._id} key={tier._id} >Tier {tier.rank}</option>;
 	});
 	const categoryChoices = props.categoryData.map((category) => {
 		return (
-			<option value={category._id}>{category.title.substring(0, 50)}</option>
+			<option value={category._id} key={category._id}>{category.title.substring(0, 50)}</option>
 		);
 	});
 
