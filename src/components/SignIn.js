@@ -5,14 +5,14 @@ function SignIn(props) {
 	return (
 		<>
 			<div className={props.hideSignIn ? 'hidden' : 'signIn'}>
-				<form>
+				<form autoComplete="yeeyee">
 					<input
 						className="inputBox"
 						onChange={props.handleChange}
 						type='text'
 						id='username'
 						name='username'
-						autoComplete="none"
+						autoComplete="yeeyee"
 						placeholder='username'
 					/>
 					
@@ -28,7 +28,7 @@ function SignIn(props) {
 					<button className="signInButton" onClick={props.checkSubmit} type='submit' name='signIn'>
 						===>
 					</button>
-					<p className={props.isUserFound ? 'hidden' : ''}>User not found!</p>
+					<p className={props.isUserFound ? 'hidden' : 'isUserFound'}>user not found!</p>
 				</form>
 			</div>
 		</>

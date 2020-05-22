@@ -54,36 +54,45 @@ function Item(props) {
 					({props.addItemHidden === 'hidden' ? '+' : '-'}) Add Item
 				</span>
 				<div className='addItem' className={props.addItemHidden}>
-					Tier:{' '}
-					<select
-						name='newItemTier'
-						id='itemTiers'
-						onChange={props.handleChange}>
-						{tierChoices}
-					</select>{' '}
-					Category:
-					<select
-						name='newItemCategory'
-						id='itemCategories'
-						onChange={props.handleChange}>
-						{categoryChoices}
-					</select>
-					<br></br>
-					Description:
-					<input
-						className='newItemDescription'
-						type='text'
-						placeholder='New Item Description'
-						value={props.newItemDescription}
-						name='newItemDescription'
-						onChange={props.handleChange}></input>
-					<br></br>
-					<button
-						onClick={() => {
-							props.submitNewItem();
-						}}>
-						Submit New Item to Trade Away
-					</button>
+						<div className="categoryTier">
+								tier ~{' '}
+								<select
+									name='newItemTier'
+									id='itemTiers'
+									onChange={props.handleChange}
+									className="select"
+									>
+									{tierChoices}
+								</select>{' '}
+								category ~
+								<select
+									name='newItemCategory'
+									id='itemCategories'
+									onChange={props.handleChange}
+									className="select"
+									>
+									{categoryChoices}
+								</select>
+						</div>
+						description:
+						<input
+							className='newItemDescription'
+							type='text'
+							placeholder='New Item Description'
+							value={props.newItemDescription}
+							name='newItemDescription'
+							onChange={props.handleChange}
+							autoComplete='yeeyee'
+							>
+						</input>
+						<button
+							onClick={() => {
+								props.submitNewItem();
+							}}
+							className="itemSubmit"
+							>
+							===>
+						</button>
 				</div>
 			</div>
 			{tierList}

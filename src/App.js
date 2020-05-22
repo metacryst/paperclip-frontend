@@ -61,6 +61,7 @@ function App() {
 	const [newNeedCategory, setNewNeedCategory] = useState([]);
 	const [addNeedHidden, setAddNeedHidden] = useState('hidden');
 
+	
 	const [todoData, setTodoData] = useState([]);
 	const [cycleData, setCycleData] = useState([]);
 
@@ -113,16 +114,16 @@ function App() {
 					setHideSignUp(false);
 					break;
 
-				case `/${username}`:
-					// console.log('switching');
-					setcompletedUsername(username);
-					setUsername(null);
-					setHideNav(true);
-					setHideInventory(false);
-					history.push(`/${completedUsername}`);
-
+				case `/${username}`: 
+					setcompletedUsername(username)
+					setUsername(null)
+					setHideNav(true)
+					setHideInventory(false)
+					history.push(`/${completedUsername}`)
+					
 				case `/${completedUsername}`:
-					setHideNav(true);
+					setHideNav(true)
+
 			}
 		});
 	}, [completedUsername, history, username]);
@@ -220,20 +221,18 @@ function App() {
 
 	function checkSubmit(event) {
 		event.preventDefault();
-		console.log('checking submit');
+// 		console.log('checking submit');
 
 		if (username === null) {
 			return;
 		}
 		if (password === null) {
 			return;
-		} else {
-			console.log(username);
-
-			setcompletedUsername(username);
-			console.log(completedUsername);
-
-			runSubmit(event);
+		} 
+		else {
+// 			console.log(username);		
+			setcompletedUsername(username);	
+			runSubmit(event)
 		}
 	}
 
@@ -289,9 +288,15 @@ function App() {
 		fetch('https://paperclip-api.herokuapp.com/api/user', requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
-				setPostId(data.id);
-				setUserId(data._id);
+				if (data) {
+					setPostId(data.id);
+					setUserId(data._id);
+					setIsUserFound(true);
+					getCategoryData();
+				} else {
+					// console.log('bad user');
+					setIsUserFound(false);
+				}
 			})
 			.then(() => {
 				setPassword(null);
@@ -307,9 +312,8 @@ function App() {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
 		};
-		console.log(completedUsername);
-
-		console.log(requestOptions);
+		
+		let dataVariable = null;
 
 		fetch(
 			`https://paperclip-api.herokuapp.com/api/user/${username}/name`,
@@ -319,23 +323,35 @@ function App() {
 			.then((data) => {
 				// console.log(data);
 				if (data) {
+// 					console.log(data);
+					dataVariable = data;
 					setPostId(data.id);
 					setUserId(data._id);
 					setIsUserFound(true);
 					getCategoryData();
+					
 				} else {
 					// console.log('bad user');
+// 					console.log('no data');
+					
 					setIsUserFound(false);
 				}
 				// check response to see if the info was good
 				// if not, call a function that will reset the state?
 			})
 			.then(() => {
+				if(dataVariable) {
+// 				console.log('nextscreen');
+				
 				setPassword(null);
 				setconfirmPassword(null);
 				setHideSignIn(true);
 				setHideInventory(false);
-				history.push(`/${username}`);
+				history.push(`/${username}`)
+				} else {
+				setPassword(null);
+				setconfirmPassword(null);
+				}
 			});
 	}
 
@@ -405,7 +421,7 @@ function App() {
 				setError(error);
 			});
 		const contactData = await data.map(async (item) => {
-			console.log();
+// 			console.log();
 			const email = await fetch(
 				`https://paperclip-api.herokuapp.com/api/user/${item.need.tier.user}`
 			).then((response) => response.json());
@@ -636,7 +652,6 @@ function App() {
 			});
 	}
 
-	// CYCLE FUNCTION
 
 	// A P I   I N T E R A C T I O N S
 	//
@@ -646,6 +661,7 @@ function App() {
 	//
 	// A P I   I N T E R A C T I O N S
 
+	
 	return (
 		<div className='wrapper' id='grad'>
 			<main>
@@ -707,10 +723,10 @@ function App() {
 									{/* USER BUTTON ON CLICK WHILE NOT SIGNED IN */}
 									<div className={hideUserOptions ? 'hidden' : 'user'}>
 										<Link to='/signup'>
-											<h2>sign up</h2>
+											<h2 className="navSignButton">sign up</h2>
 										</Link>
 										<Link to='/signin'>
-											<h2>sign in</h2>
+											<h2 className="navSignButton">sign in</h2>
 										</Link>
 									</div>
 								</div>
@@ -855,3 +871,19 @@ function App() {
 }
 
 export default App;
+
+
+
+{/* <Route
+path='/link'
+render={() => {
+	return (
+		<>
+			<Link to='/'>
+				<h1 className='header'>paperclip</h1>
+			</Link>
+			<Cycle getTodoData={getTodoData} todoData={todoData} />
+		</>
+	);
+}}
+/> */}

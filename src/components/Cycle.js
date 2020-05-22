@@ -4,10 +4,12 @@ function Cycle(props) {
 	useEffect(() => {
 		// console.log('useEffecting in item');
 
+
 		props.getTodoData();
 		// eslint-disable-next-line
 	}, []);
 
+	
 	const todoItems = props.todoData.map((todo) => {
 		// console.log(todo)
 		return (
@@ -22,6 +24,10 @@ function Cycle(props) {
 			</div>
 		);
 	});
+		return( 
+			<div>{todoItems}</div>
+		)
+	
 
 	const cyclePath = props.cycleData
 		.map((link) => {
@@ -36,6 +42,32 @@ function Cycle(props) {
 
 	// const cyclePath = (data) => {
 	// 	// array = ['Bread', 'Shoes'];
+
+  //Completed Cycles
+
+// let array = ['Bread', 'Shoes', 'Table', 'Sofa', 'Jet Ski', 'Car', 'House'];
+// // array = ['Bread', 'Shoes'];
+// let top = '/-->';
+// let el1 = '|   |';
+// let el2 = '|   v';
+// let fil = '|  ';
+// let bot = '\\--';
+// if (array.length === 2) {
+// 	console.log(top + array[0]);
+// 	console.log(el1);
+// 	console.log(el2);
+// 	console.log(bot + array[1]);
+// }
+// console.log(top + array[0]);
+// for (let i = 1; i < array.length - 1; i++) {
+// 	console.log(el1);
+// 	console.log(el2);
+// 	console.log(fil + array[i]);
+// }
+// console.log(el1);
+// console.log(el2);
+// console.log(bot + array[array.length - 1]);
+// List of all trades in cycle, category
 
 	// 	const result = [];
 
@@ -73,3 +105,4 @@ function Cycle(props) {
 }
 
 export default Cycle;
+
