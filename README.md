@@ -1,8 +1,6 @@
 # paperclip//
 
----
-
-### BARTER
+## BARTER
 
 In 2006, Kyle MacDonald bartered his way from a single paperclip to a house. In fourteen steps, Kyle was able to exchange goods and experiences, from an empty keg to an afternoon with Gene Simmons, for items more valuable to him. Kyle ultimately landed the house in exchange for a movie role.
 
@@ -16,24 +14,25 @@ paperclip is a web app that allows users to put their items up for trade and rec
 
 A typical experience would have the user receive a notification when an item they want is available or when one of their items is being requested. The user would then decide whether to complete the trade or wait for another one. Users would be connected by email to make arrangements for exchange.
 
-### CURRENT FEATURES
+## CURRENT FEATURES
 
-- User may create accounts
+- Users may create accounts
 - Users may log in to the app
 - Users may add and remove items to their "haves" list.
 - Users may add and remove items from their "wants" lists.
 - Users may be matched with other users who have things they want and vice-versa.
 - Users may view trades on a trade screen.
+- Users may accept or reject proposed trades.
 - Users may add and remove wants and needs from their user profiles.
 - Users may group their items by tier, allowing them to provide some guidelines for parity in trade offers received. Users may receive offers for items in a tier higher than they have chosen for their item but never items in a lower tier.
 - The app may determine routes through users to offer efficient, multi-party trades.
 
-### PLANNED FEATURES
+## PLANNED FEATURES
 
 - Present to the user a visualization of trades they have completed, including items traded by other users as part of the same transaction.
 - Email the user when a trade is proposed so that they don't have to log in to the app to check if they have offers pending.
 
-### TECHNOLOGIES USED
+## TECHNOLOGIES USED
 
 - HTML
 - CSS
@@ -43,7 +42,7 @@ A typical experience would have the user receive a notification when an item the
 - Express
 - MongoDB
 
-### CONTRIBUTION GUIDELINES
+## CONTRIBUTION GUIDELINES
 
 - [Source Code](https://github.com/briansamtrent/paperclip-frontend)
 
