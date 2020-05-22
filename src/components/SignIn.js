@@ -28,7 +28,7 @@ function SignIn(props) {
 					<button className="signInButton" onClick={props.checkSubmit} type='submit' name='signIn'>
 						===>
 					</button>
-					<p className={props.isUserFound ? 'hidden' : ''}>User not found!</p>
+					<p className={props.isUserFound ? 'hidden' : 'isUserFound'}>user not found!</p>
 				</form>
 			</div>
 		</>

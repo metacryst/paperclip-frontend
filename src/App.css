@@ -138,6 +138,14 @@ h2:active {
 	outline: 0
 }
 
+.passwordMatch {
+	margin-left: 8px;
+}
+
+.isUserFound {
+	margin-left: 8px;
+}
+
 
 /* USER SCREEN */
 

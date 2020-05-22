@@ -115,7 +115,7 @@ function App() {
 					break;
 					
 				case `/${username}`: 
-					// console.log('switching');
+					console.log('switching');
 					setcompletedUsername(username)
 					setUsername(null)
 					setHideNav(true)
@@ -229,12 +229,10 @@ function App() {
 		}
 		if (password === null) {
 			return;
-		} else {
-			console.log(username);
-			
-			setcompletedUsername(username)
-			console.log(completedUsername);
-			
+		} 
+		else {
+			console.log(username);		
+			setcompletedUsername(username);	
 			runSubmit(event)
 		}
 	}
@@ -291,9 +289,15 @@ function App() {
 		fetch('https://paperclip-api.herokuapp.com/api/user', requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
-				setPostId(data.id);
-				setUserId(data._id);
+				if (data) {
+					setPostId(data.id);
+					setUserId(data._id);
+					setIsUserFound(true);
+					getCategoryData();
+				} else {
+					// console.log('bad user');
+					setIsUserFound(false);
+				}
 			})
 			.then(() => {
 				setPassword(null);
@@ -309,32 +313,44 @@ function App() {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
 		};
-		console.log(completedUsername);
-
-		console.log(requestOptions);
+		
+		let dataVariable = null;
 
 		fetch(`https://paperclip-api.herokuapp.com/api/user/${username}/name`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				// console.log(data);
 				if (data) {
+					console.log(data);
+					dataVariable = data;
 					setPostId(data.id);
 					setUserId(data._id);
 					setIsUserFound(true);
 					getCategoryData();
+					
 				} else {
 					// console.log('bad user');
+					console.log('no data');
+					
 					setIsUserFound(false);
 				}
 				// check response to see if the info was good
 				// if not, call a function that will reset the state?
 			})
 			.then(() => {
+				if(dataVariable) {
+				console.log('nextscreen');
+				
 				setPassword(null);
 				setconfirmPassword(null);
 				setHideSignIn(true);
 				setHideInventory(false);
 				history.push(`/${username}`)
+				
+				} else {
+				setPassword(null);
+				setconfirmPassword(null);
+				}
 			});
 	}
 
