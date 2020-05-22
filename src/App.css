@@ -29,13 +29,13 @@ h2 {
 .header {
 	position: absolute;
 	left: 20px;
-	top: 13px;
+	top: 20px;
 }
 
 .user {
 	position: absolute;
 	right: 20px;
-	top: 20px;
+	top: 14px;
 }
 
 .trade {
@@ -51,6 +51,78 @@ h2 {
 }
 
 
+
+
+
+/* SIGN IN AND UP */
+
+
+.signUp {
+	position: absolute;
+	right: 6%;
+	top: 90%;
+}
+
+.signIn {
+	position: absolute;
+	right: 8%;
+	top: 90%;
+}
+
+.inputBox {
+	background: transparent;
+	border: 2px solid black;
+	border-right: none;
+	border-left: none;
+	margin-left: 8px;
+	height: 20px;
+	font-size: 10pt
+}
+
+.inputBox:focus {
+	outline: 0
+}
+
+::placeholder {
+	color: black;
+	font-weight: bold;
+}
+
+.inputBox:focus::placeholder {
+	color: transparent;
+	outline: 0
+}
+
+.signUpButton,
+.signInButton {
+	padding: 5px;
+	background: transparent;
+	color: black;
+	border: 2px solid black;
+	font-weight: bolder;
+	font-size: 12pt;
+	width: 70px
+}
+
+.signUpButton:hover,
+.signInButton:hover {
+	background-color: white;
+	cursor: pointer;
+}
+
+.signUpButton:active,
+.signInButton:active {
+	background-color: grey;
+	transform: translateY(3px);
+}
+
+.signUpButton:focus,
+.signInButton:focus {
+	outline: 0
+}
+
+
+/* USER SCREEN */
 
 
 .itemsContainer {
@@ -99,7 +171,11 @@ h2 {
 
 .decisionButton:focus {
 	outline: 0;
-	transform: translateY(2px);
+}
+
+.decisionButton:active {
+	background-color: grey;
+	transform: translateY(3px);
 }
 
 

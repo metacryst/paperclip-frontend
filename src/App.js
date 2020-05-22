@@ -18,7 +18,7 @@ function App() {
 	const [error, setError] = useState('');
 
 	// hooks for the display of every component in nav menu
-	const [hideUser, setHideUser] = useState(true);
+	const [hideUserOptions, setHideUserOptions] = useState(true);
 	const [hideSignIn, setHideSignIn] = useState(true);
 	const [hideSignUp, setHideSignUp] = useState(true);
 	const [hideAbout, setHideAbout] = useState(true);
@@ -78,7 +78,7 @@ function App() {
 			// eslint-disable-next-line default-case
 			switch (location.pathname) {
 				case '/':
-					setHideUser(true);
+					setHideUserOptions(true);
 					setHideAbout(true);
 					setHideTrade(true);
 					setHideSignUp(true);
@@ -87,8 +87,8 @@ function App() {
 					break;
 
 				case '/user':
-					setHideUser(false);
-					setHideNav(true);
+					setHideUserOptions(false);
+					setHideNav(false)
 					break;
 
 				case '/about':
@@ -102,19 +102,22 @@ function App() {
 					break;
 
 				case '/signin':
-					setHideUser(true);
+					setHideUserOptions(true);
 					setHideNav(true);
 					setHideSignIn(false);
 					break;
 
 				case '/signup':
-					setHideUser(true);
+					setHideUserOptions(true);
 					setHideNav(true);
 					setHideSignUp(false);
 					break;
 					
 				case `/${username}`: 
-					// setHideNav(true)
+					console.log('switching');
+					
+					setHideNav(true)
+					setHideInventory(false)
 			}
 		});
 	}, [history]);
@@ -129,8 +132,7 @@ function App() {
 
 	function cornerButtonClick(event) {
 		if (event.target.getAttribute('name') === 'user') {
-			setHideUser(false);
-			setHideNav(true);
+			setHideUserOptions(false);
 		}
 		if (event.target.getAttribute('name') === 'about') {
 			setHideAbout(false);
@@ -145,7 +147,7 @@ function App() {
 	// function to handle home button click
 	function paperclipButtonClick(event) {
 		if (event.target.getAttribute('name') === 'user') {
-			setHideUser(true);
+			setHideUserOptions(true);
 			setHideNav(false);
 		}
 		if (event.target.getAttribute('name') === 'about') {
@@ -566,8 +568,12 @@ function App() {
 	//PUT to update links with trade decisions
 	function decideTrade(decision, linkIndex) {
 		console.log('trade decided');
-		// console.log(tradeData[0].confirmed)
-
+		console.log(tradeData)
+		if(!tradeData[0]) {
+			console.log('no trade data!');
+			return
+		}
+		
 		let linkId = tradeData[linkIndex]._id;
 		console.log(linkId);
 
@@ -669,36 +675,36 @@ function App() {
 											about
 										</h2>
 									</Link>
-									
-									<Link to={username ? `${username}` : 'user'}>
-										<h2
-											onClick={cornerButtonClick}
-											className={username ? 'hidden' : 'user'}
-											name='user'>
-											user
-										</h2>
-										<h2
-											onClick={cornerButtonClick}
-											className={username ? 'user' : 'hidden'}
-											name='user'>
-											{username}
-										</h2>
-										
-									</Link>
+									{/* USER BUTTON */}
+									<div className={hideUserOptions ? 'user' : 'hidden'}>
+										<Link to={username ? `${username}` : 'user'}>
+											{/* GENERIC USER HEADER */}
+											<h2
+												onClick={cornerButtonClick}
+												className={username ? 'hidden' : 'user'}
+												name='user'
+												>
+												user
+											</h2>
+											{/* USERNAME HEADER */}
+											<h2
+												className={username ? 'user' : 'hidden'}
+												name='user'
+												>
+												{username}
+											</h2>
+										</Link>
+									</div>
+									{/* USER BUTTON ON CLICK WHILE NOT SIGNED IN */}
+									<div className={hideUserOptions ? 'hidden' : 'user'}>
+										<Link to='/signup'>
+											<h2>sign up</h2>
+										</Link>
+										<Link to='/signin'>
+											<h2>sign in</h2>
+										</Link>
+									</div>
 								</div>
-							</>
-						);
-					}}
-				/>
-				<Route
-					path='/user'
-					render={() => {
-						return (
-							<>
-								<User
-									hideUser={hideUser}
-									paperclipButtonClick={paperclipButtonClick}
-								/>
 							</>
 						);
 					}}
@@ -783,6 +789,9 @@ function App() {
 					render={() => {
 						return (
 							<>
+								<Link to='/'>
+									<h1 className='header'>paperclip//sign up</h1>
+								</Link>
 								<SignUp
 									handleChange={handleChange}
 									checkSubmit={checkSubmit}
@@ -798,6 +807,9 @@ function App() {
 					render={() => {
 						return (
 							<>
+								<Link to='/'>
+									<h1 className='header'>paperclip//sign in</h1>
+								</Link>
 								<SignIn
 									handleChange={handleChange}
 									checkSubmit={checkSubmit}

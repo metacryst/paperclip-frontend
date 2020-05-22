@@ -12,7 +12,7 @@ function Trade(props) {
 		<>
 			<div className={props.hideTrade ? 'hidden' : 'tradeDisplay'}>
 				<div className={props.tradeData[0] ? 'hidden' : 'tradesmall'}>
-					<h2>trade:</h2>
+					<h2>trade--</h2>
 
 					<p className='itemTradeDescription'>
 						{props.tradeData[props.tradeDataIndex]
