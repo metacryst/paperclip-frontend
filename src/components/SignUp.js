@@ -4,52 +4,48 @@ import { Link } from 'react-router-dom';
 function SignUp(props) {
 	return (
 		<>
-			<Link to='/'>
-				<h1 name='signup' onClick={props.paperclipButtonClick} className={props.hideSignIn ? 'hidden' : 'signupHeader'}>
-					paperclip
-				</h1>
-			</Link>
-			<div className={props.hideSignUp ? 'hidden' : 'signup'}>
-				<h2>Sign Up</h2>
+			<div className={props.hideSignUp ? 'hidden' : 'signUp'}>
 				<form>
-					<label htmlFor='email'>Email</label>
 					<input
+						className="inputBox"
 						onChange={props.handleChange}
 						type='text'
 						placeholder='email'
 						id='email'
 						name='email'
+						autoComplete="none"
 					/>
-					<label htmlFor='username'>Username</label>
 					<input
+						className="inputBox"
 						onChange={props.handleChange}
 						type='text'
-						placeholder='Username'
+						placeholder='username'
 						id='username'
 						name='username'
+						autoComplete="none"
 					/>
 
-					<label htmlFor='password'>Password</label>
 					<input
+						className="inputBox"
 						onChange={props.handleChange}
 						type='password'
-						placeholder='Password'
+						placeholder='password'
 						id='password'
 						name='password'
 					/>
 
-					<label htmlFor='passwordConfirm'>Confirm password</label>
 					<input
+						className="inputBox"
 						onChange={props.handleChange}
 						type='password'
-						placeholder='Confirm password'
+						placeholder='password'
 						id='passwordConfirm'
 						name='confirmPassword'
 					/>
-					<button onClick={props.checkSubmit} type='submit' name="signUp">
-						Sign Up
+					<button className="signUpButton" onClick={props.checkSubmit} type='submit' name="signUp">
+						===>
 					</button>
-					<p className={props.isPasswordValid ? 'hidden' : ''}>Passwords must match!</p>
+					<p className={props.isPasswordValid ? 'hidden' : 'passwordMatch'}>passwords must match!</p>
 				</form>
 			</div>
 		</>

@@ -18,7 +18,7 @@ function App() {
 	const [error, setError] = useState('');
 
 	// hooks for the display of every component in nav menu
-	const [hideUser, setHideUser] = useState(true);
+	const [hideUserOptions, setHideUserOptions] = useState(true);
 	const [hideSignIn, setHideSignIn] = useState(true);
 	const [hideSignUp, setHideSignUp] = useState(true);
 	const [hideAbout, setHideAbout] = useState(true);
@@ -41,6 +41,7 @@ function App() {
 	//hook for storing current user info
 	//ideally this would be in local storage so refreshing wouldn't break everything
 	const [userId, setUserId] = useState('');
+	const [completedUsername, setcompletedUsername] = useState(null)
 
 	//hook for trade options/link data/array of links with 0 value
 	const [tradeData, settradeData] = useState(['']);
@@ -55,7 +56,6 @@ function App() {
 	const [newItemCategory, setNewItemCategory] = useState([]);
 	const [newItemDescription, setNewItemDescription] = useState('');
 	const [addItemHidden, setAddItemHidden] = useState('hidden');
-	const [todoData, setTodoData] = useState('')
 
 	const [needData, setNeedData] = useState([]);
 	const [newNeedTier, setNewNeedTier] = useState([]);
@@ -79,7 +79,7 @@ function App() {
 			// eslint-disable-next-line default-case
 			switch (location.pathname) {
 				case '/':
-					setHideUser(true);
+					setHideUserOptions(true);
 					setHideAbout(true);
 					setHideTrade(true);
 					setHideSignUp(true);
@@ -88,8 +88,8 @@ function App() {
 					break;
 
 				case '/user':
-					setHideUser(false);
-					setHideNav(true);
+					setHideUserOptions(false);
+					setHideNav(false)
 					break;
 
 				case '/about':
@@ -103,19 +103,28 @@ function App() {
 					break;
 
 				case '/signin':
-					setHideUser(true);
+					setHideUserOptions(true);
 					setHideNav(true);
 					setHideSignIn(false);
 					break;
 
 				case '/signup':
-					setHideUser(true);
+					setHideUserOptions(true);
 					setHideNav(true);
 					setHideSignUp(false);
 					break;
 					
 				case `/${username}`: 
-					// setHideNav(true)
+					console.log('switching');
+					setcompletedUsername(username)
+					setUsername(null)
+					setHideNav(true)
+					setHideInventory(false)
+					history.push(`/${completedUsername}`)
+					
+				case `/${completedUsername}`:
+					setHideNav(true)
+
 			}
 		});
 	}, [history]);
@@ -130,8 +139,7 @@ function App() {
 
 	function cornerButtonClick(event) {
 		if (event.target.getAttribute('name') === 'user') {
-			setHideUser(false);
-			setHideNav(true);
+			setHideUserOptions(false);
 		}
 		if (event.target.getAttribute('name') === 'about') {
 			setHideAbout(false);
@@ -141,12 +149,16 @@ function App() {
 			setHideTrade(false);
 			setHideNav(true);
 		}
+		if (event.target.getAttribute('name') === 'completedUsername') {
+			setHideInventory(false);
+			setHideNav(true);
+		}
 	}
 
 	// function to handle home button click
 	function paperclipButtonClick(event) {
 		if (event.target.getAttribute('name') === 'user') {
-			setHideUser(true);
+			setHideUserOptions(true);
 			setHideNav(false);
 		}
 		if (event.target.getAttribute('name') === 'about') {
@@ -217,7 +229,10 @@ function App() {
 		}
 		if (password === null) {
 			return;
-		} else {
+		} 
+		else {
+			console.log(username);		
+			setcompletedUsername(username);	
 			runSubmit(event)
 		}
 	}
@@ -236,7 +251,7 @@ function App() {
 		};
 		// console.log(signUpInformation);
 		// console.log(signInInformation)
-
+		
 		switch (event.target.name) {
 			case 'signUp':
 				const match = confirmPassword === password;
@@ -271,16 +286,22 @@ function App() {
 
 		console.log(requestOptions);
 
-		fetch('http://localhost:8080/api/user', requestOptions)
+		fetch('https://paperclip-api.herokuapp.com/api/user', requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
-				setPostId(data.id);
-				setUserId(data._id);
+				if (data) {
+					setPostId(data.id);
+					setUserId(data._id);
+					setIsUserFound(true);
+					getCategoryData();
+				} else {
+					// console.log('bad user');
+					setIsUserFound(false);
+				}
 			})
 			.then(() => {
 				setPassword(null);
-				setconfirmPassword(null);
+				setconfirmPassword(null);							
 				setHideSignIn(true);
 				setHideInventory(false);
 				history.push(`/${username}`)
@@ -292,31 +313,44 @@ function App() {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
 		};
+		
+		let dataVariable = null;
 
-		console.log(requestOptions);
-
-		fetch(`http://localhost:8080/api/user/${username}/name`, requestOptions)
+		fetch(`https://paperclip-api.herokuapp.com/api/user/${username}/name`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				// console.log(data);
 				if (data) {
+					console.log(data);
+					dataVariable = data;
 					setPostId(data.id);
 					setUserId(data._id);
 					setIsUserFound(true);
 					getCategoryData();
+					
 				} else {
 					// console.log('bad user');
+					console.log('no data');
+					
 					setIsUserFound(false);
 				}
 				// check response to see if the info was good
 				// if not, call a function that will reset the state?
 			})
 			.then(() => {
+				if(dataVariable) {
+				console.log('nextscreen');
+				
 				setPassword(null);
 				setconfirmPassword(null);
 				setHideSignIn(true);
 				setHideInventory(false);
 				history.push(`/${username}`)
+				
+				} else {
+				setPassword(null);
+				setconfirmPassword(null);
+				}
 			});
 	}
 
@@ -343,7 +377,7 @@ function App() {
 	//USER SCREEN FUNCTIONS
 
 	function getCategoryData() {
-		const url = `http://localhost:8080/api/category`;
+		const url = `https://paperclip-api.herokuapp.com/api/category`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -358,7 +392,7 @@ function App() {
 
 	//GET tier by user id
 	async function getTierData() {
-		const url = `http://localhost:8080/api/user/${userId}/tier`;
+		const url = `https://paperclip-api.herokuapp.com/api/user/${userId}/tier`;
 		const tierFetched = await fetch(url)
 			.then((response) => response.json())
 			.then(async (data) => {
@@ -385,7 +419,7 @@ function App() {
 
 	//GET item by user id
 	function getItemData() {
-		const url = `http://localhost:8080/api/item/${userId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/item/${userId}`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -398,7 +432,7 @@ function App() {
 
 	//Get Todos
 	function getTodoData() {
-		const url = `http://localhost:8080/api/cycle/${userId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/cycle/${userId}`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -410,7 +444,7 @@ function App() {
 	}
 
 	async function submitNewItem() {
-		const url = `http://localhost:8080/api/tier/item/${newItemTier}/${newItemCategory}`;
+		const url = `https://paperclip-api.herokuapp.com/api/tier/item/${newItemTier}/${newItemCategory}`;
 		const newItemBody = {
 			pic: 'pic',
 			description: newItemDescription,
@@ -434,7 +468,7 @@ function App() {
 	}
 
 	async function itemDelete(itemId) {
-		const url = `http://localhost:8080/api/item/${itemId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/item/${itemId}`;
 		const itemDeleted = await fetch(url, {
 			method: 'DELETE',
 			headers: {
@@ -460,7 +494,7 @@ function App() {
 	/////////////////////////////////////
 
 	function getNeedData() {
-		const url = `http://localhost:8080/api/need/${userId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/need/${userId}`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -472,7 +506,7 @@ function App() {
 	}
 
 	async function submitNewNeed() {
-		const url = `http://localhost:8080/api/tier/need/${newNeedTier}/${newNeedCategory}`;
+		const url = `https://paperclip-api.herokuapp.com/api/tier/need/${newNeedTier}/${newNeedCategory}`;
 		const newNeed = await fetch(url, {
 			method: 'POST',
 			headers: {
@@ -490,7 +524,7 @@ function App() {
 	}
 
 	async function needDelete(needId) {
-		const url = `http://localhost:8080/api/need/${needId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/need/${needId}`;
 		const needDeleted = await fetch(url, {
 			method: 'DELETE',
 			headers: {
@@ -525,7 +559,7 @@ function App() {
 	function getUserLinks() {
 		// settradeData
 		console.log('about to call');
-		const url = `http://localhost:8080/api/link/${userId}/unconfirmed`;
+		const url = `https://paperclip-api.herokuapp.com/api/link/${userId}/unconfirmed`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -567,8 +601,12 @@ function App() {
 	//PUT to update links with trade decisions
 	function decideTrade(decision, linkIndex) {
 		console.log('trade decided');
-		// console.log(tradeData[0].confirmed)
-
+		console.log(tradeData)
+		if(!tradeData[0]) {
+			console.log('no trade data!');
+			return
+		}
+		
 		let linkId = tradeData[linkIndex]._id;
 		console.log(linkId);
 
@@ -600,7 +638,7 @@ function App() {
 			body: JSON.stringify(linkUpdateInformation),
 		};
 
-		fetch(`http://localhost:8080/api/link/${linkId}/confirm`, requestOptions)
+		fetch(`https://paperclip-api.herokuapp.com/api/link/${linkId}/confirm`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				console.log(data);
@@ -612,7 +650,7 @@ function App() {
 	// CYCLE FUNCTION
 	
 	function getTodoData() {
-		const url = `http://localhost:8080/api/cycle/${userId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/cycle/${userId}`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -622,7 +660,6 @@ function App() {
 				setError(error);
 			});
 	}
-	
 
 	// A P I   I N T E R A C T I O N S
 	//
@@ -636,9 +673,11 @@ function App() {
 		<div className='wrapper' id='grad'>
 			<main>
 				<div className='graphicHolder'>
-					<p className='graphic'>
-						=======<br></br>=====
-					</p>
+					<Link to="/link">
+						<p className='graphic'>
+							=======<br></br>=====
+						</p>
+					</Link>
 				</div>
 				<Route
 					path='/'
@@ -660,7 +699,7 @@ function App() {
 											trade
 										</h2>
 									</Link>
-									<Link to='/link'>
+									<Link to='/about'>
 										<h2
 											onClick={cornerButtonClick}
 											className='about'
@@ -668,47 +707,48 @@ function App() {
 											about
 										</h2>
 									</Link>
-									
-									<Link to={username ? `${username}` : 'user'}>
-										<h2
-											onClick={cornerButtonClick}
-											className={username ? 'hidden' : 'user'}
-											name='user'>
-											user
-										</h2>
-										<h2
-											onClick={cornerButtonClick}
-											className={username ? 'user' : 'hidden'}
-											name='user'>
-											{username}
-										</h2>
-										
-									</Link>
+									{/* USER BUTTON */}
+									<div className={hideUserOptions ? 'user' : 'hidden'}>
+										<Link to={completedUsername ? `${completedUsername}` : 'user'}>
+											{/* GENERIC USER HEADER */}
+											<h2
+												onClick={cornerButtonClick}
+												className={completedUsername ? 'hidden' : 'user'}
+												name='user'
+												>
+												user
+											</h2>
+											{/* USERNAME HEADER */}
+											<h2
+												onClick={cornerButtonClick}
+												className={completedUsername ? 'user' : 'hidden'}
+												name='completedUsername'
+												>
+												{completedUsername}
+											</h2>
+										</Link>
+									</div>
+									{/* USER BUTTON ON CLICK WHILE NOT SIGNED IN */}
+									<div className={hideUserOptions ? 'hidden' : 'user'}>
+										<Link to='/signup'>
+											<h2 className="navSignButton">sign up</h2>
+										</Link>
+										<Link to='/signin'>
+											<h2 className="navSignButton">sign in</h2>
+										</Link>
+									</div>
 								</div>
 							</>
 						);
 					}}
 				/>
 				<Route
-					path='/user'
-					render={() => {
-						return (
-							<>
-								<User
-									hideUser={hideUser}
-									paperclipButtonClick={paperclipButtonClick}
-								/>
-							</>
-						);
-					}}
-				/>
-				<Route
-					path={'/' + username}
+					path={'/' + completedUsername}
 					render={() => {
 						return (
 							<>
 								<Link to='/'>
-									<h1 className='header'>paperclip//{username}</h1>
+									<h1 className='header'>paperclip//{completedUsername}</h1>
 								</Link>
 								<Item
 									toggleAddItemHidden={toggleAddItemHidden}
@@ -782,6 +822,9 @@ function App() {
 					render={() => {
 						return (
 							<>
+								<Link to='/'>
+									<h1 className='header'>paperclip//sign up</h1>
+								</Link>
 								<SignUp
 									handleChange={handleChange}
 									checkSubmit={checkSubmit}
@@ -797,6 +840,9 @@ function App() {
 					render={() => {
 						return (
 							<>
+								<Link to='/'>
+									<h1 className='header'>paperclip//sign in</h1>
+								</Link>
 								<SignIn
 									handleChange={handleChange}
 									checkSubmit={checkSubmit}

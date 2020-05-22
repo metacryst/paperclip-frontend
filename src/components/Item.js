@@ -36,6 +36,8 @@ function Item(props) {
 	});
 
 	useEffect(() => {
+		console.log('useEffecting in item');
+		
 		props.getTierData();
 		// eslint-disable-next-line
 	}, []);
