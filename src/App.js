@@ -64,11 +64,14 @@ function App() {
 	
 	const [todoData, setTodoData] = useState([]);
 	const [cycleData, setCycleData] = useState([]);
+	
+	const [hideSignOut, setHideSignOut] = useState(true)
 
 	// function to handle display for each url
 	const history = useHistory();
 
 	useEffect(() => {
+		setHideSignOut(true)
 		return history.listen((location) => {
 			// console.log(location.pathname);
 			// console.log('useffecting');
@@ -84,45 +87,53 @@ function App() {
 					setHideTrade(true);
 					setHideSignUp(true);
 					setHideSignIn(true);
+					setHideSignOut(true);
 					setHideNav(false);
 					break;
 
 				case '/user':
 					setHideUserOptions(false);
 					setHideNav(false);
+					setHideSignOut(true);
 					break;
 
 				case '/about':
 					setHideAbout(false);
 					setHideNav(true);
+					setHideSignOut(true);
 					break;
 
 				case '/trade':
 					setHideTrade(false);
 					setHideNav(true);
+					setHideSignOut(true);
 					break;
 
 				case '/signin':
 					setHideUserOptions(true);
 					setHideNav(true);
 					setHideSignIn(false);
+					setHideSignOut(true);
 					break;
 
 				case '/signup':
 					setHideUserOptions(true);
 					setHideNav(true);
 					setHideSignUp(false);
+					setHideSignOut(true);
 					break;
 
 				case `/${username}`: 
 					setcompletedUsername(username)
 					setUsername(null)
 					setHideNav(true)
+					setHideSignOut(true);
 					setHideInventory(false)
 					history.push(`/${completedUsername}`)
 					
 				case `/${completedUsername}`:
 					setHideNav(true)
+					setHideSignOut(true)
 					
 				case '/link':
 					setHideUserOptions(true);
@@ -145,8 +156,9 @@ function App() {
 	};
 
 	
-	function middleButtonCick() {
+	function middleButtonClick() {
 		setHideNav(true);
+		setHideSignOut(false);
 	}
 	
 	function cornerButtonClick(event) {
@@ -359,6 +371,9 @@ function App() {
 				setPassword(null);
 				setconfirmPassword(null);
 				setHideSignIn(true);
+				setHideSignOut(true);
+				console.log(hideSignOut);
+				
 				setHideInventory(false);
 				history.push(`/${username}`)
 				} else {
@@ -678,12 +693,19 @@ function App() {
 	return (
 		<div className='wrapper' id='grad'>
 			<main>
-				<div className='graphicHolder'>
+				<div className={hideSignOut ? 'graphicHolder' : 'hidden'}>
 					<Link to='/link'>
-						<p className='graphic' onclick={middleButtonCick}>
+						<p className='graphic' onClick={middleButtonClick}>
 							=======<br></br>=====
 						</p>
 					</Link>
+				</div>
+				<div className={hideSignOut ? 'hidden' : 'graphicHolder'}>
+					<a href="">
+						<p className='graphic'>
+							=======<br></br>=====
+						</p>
+					</a>
 				</div>
 				<Route
 					path='/'
