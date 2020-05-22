@@ -4,33 +4,31 @@ import { Link } from 'react-router-dom';
 function SignIn(props) {
 	return (
 		<>
-			<Link to='/'>
-				<h1 name='signin' onClick={props.paperclipButtonClick}>
-					paperclip
-				</h1>
-			</Link>
-			<div className={props.hideTrade ? 'hidden' : 'signin'}>
-				{' '}
-				<h1>Sign In</h1>
-				<form>
+			<div className={props.hideSignIn ? 'hidden' : 'signIn'}>
+				<form autoComplete="yeeyee">
 					<input
+						className="inputBox"
 						onChange={props.handleChange}
 						type='text'
-						placeholder='Username'
 						id='username'
+						name='username'
+						autoComplete="yeeyee"
+						placeholder='username'
 					/>
-					<label htmlFor='username'>Username</label>
-
+					
 					<input
+						className="inputBox"
 						onChange={props.handleChange}
 						type='password'
-						placeholder='Password'
 						id='password'
+						name='password'
+						placeholder='password'
 					/>
-					<label htmlFor='password'>Password</label>
-					<button onClick={props.runSubmit} type='submit'>
-						Sign Up
+					
+					<button className="signInButton" onClick={props.checkSubmit} type='submit' name='signIn'>
+						===>
 					</button>
+					<p className={props.isUserFound ? 'hidden' : 'isUserFound'}>user not found!</p>
 				</form>
 			</div>
 		</>
