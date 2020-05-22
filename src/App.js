@@ -62,7 +62,7 @@ function App() {
 	const [newNeedCategory, setNewNeedCategory] = useState([]);
 	const [addNeedHidden, setAddNeedHidden] = useState('hidden');
 	
-	const [todoData, setTodoData] = useState('')
+	const [todoData, setTodoData] = useState([]);
 
 
 	// function to handle display for each url
@@ -648,18 +648,27 @@ function App() {
 	
 	
 	// CYCLE FUNCTION
-	
-	function getTodoData() {
-		const url = `https://paperclip-api.herokuapp.com/api/cycle/${userId}`;
-		fetch(url)
+	async function getTodoData() {
+		const url = `https://paperclip-api.herokuapp.com/api/link/${userId}/cycle`;
+		const data = await fetch(url)
 			.then((response) => response.json())
-			.then((data) => {
-				setTodoData(data);
-			})
+
 			.catch(function (error) {
 				setError(error);
 			});
+		const contactData = await data.map(async (item) => {
+			console.log();
+			const email = await fetch(
+				`https://paperclip-api.herokuapp.com/api/user/${item.need.tier.user}`
+			).then((response) => response.json());
+
+			return { email: email.email, category: item.item.category.title, description: item.item.description, id: item._id};
+		});
+		setTodoData(await Promise.all (contactData));
 	}
+	
+	
+	
 
 	// A P I   I N T E R A C T I O N S
 	//
@@ -669,15 +678,16 @@ function App() {
 	//
 	// A P I   I N T E R A C T I O N S
 
+	
 	return (
 		<div className='wrapper' id='grad'>
 			<main>
 				<div className='graphicHolder'>
-					<Link to="/link">
+					<a href="">
 						<p className='graphic'>
 							=======<br></br>=====
 						</p>
-					</Link>
+					</a>
 				</div>
 				<Route
 					path='/'
@@ -853,26 +863,25 @@ function App() {
 						);
 					}}
 				/>
-				<Route
-				path='/link'
-				render={()=>{
-					return(
-						<>
-						<Link to='/'>
-							<h1 className='header'>paperclip</h1>
-						</Link>
-							<Cycle
-							getTodoData={getTodoData}
-							useEffect={useEffect}
-							todoData={todoData}
-						/>	
-						</>
-					)
-				}}
-				/>
 			</main>
 		</div>
 	);
 }
 
 export default App;
+
+
+
+{/* <Route
+path='/link'
+render={() => {
+	return (
+		<>
+			<Link to='/'>
+				<h1 className='header'>paperclip</h1>
+			</Link>
+			<Cycle getTodoData={getTodoData} todoData={todoData} />
+		</>
+	);
+}}
+/> */}

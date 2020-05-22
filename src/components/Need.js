@@ -51,26 +51,32 @@ function Need(props) {
 					({props.addNeedHidden === 'hidden' ? '+' : '-'}) Add Need
 				</span>
 				<div className='addItem' className={props.addNeedHidden}>
-					Tier:{' '}
-					<select
-						name='newNeedTier'
-						id='needTiers'
-						onChange={props.handleChange}>
-						{tierChoices}
-					</select>{' '}
-					Category:
-					<select
-						name='newNeedCategory'
-						id='needCategories'
-						onChange={props.handleChange}>
-						{categoryChoices}
-					</select>
-					<br></br>
+				<div className="categoryTier">
+							tier ~{' '}
+							<select
+								name='newNeedTier'
+								id='needTiers'
+								onChange={props.handleChange}
+								className="select"
+								>
+								{tierChoices}
+							</select>{' '}
+							category ~
+							<select
+								name='newNeedCategory'
+								id='needCategories'
+								onChange={props.handleChange}
+								className="select"
+								>
+								{categoryChoices}
+							</select>
+					</div>
 					<button
 						onClick={() => {
 							props.submitNewNeed();
-						}}>
-						Submit New Need to Trade For
+						}}
+						className="needSubmit">
+						===>
 					</button>
 				</div>
 			</div>
