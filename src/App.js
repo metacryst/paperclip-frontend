@@ -41,6 +41,7 @@ function App() {
 	//hook for storing current user info
 	//ideally this would be in local storage so refreshing wouldn't break everything
 	const [userId, setUserId] = useState('');
+	const [completedUsername, setcompletedUsername] = useState(null)
 
 	//hook for trade options/link data/array of links with 0 value
 	const [tradeData, settradeData] = useState(['']);
@@ -115,9 +116,12 @@ function App() {
 					
 				case `/${username}`: 
 					console.log('switching');
-					
+					setcompletedUsername(username)
+					setUsername(null)
 					setHideNav(true)
 					setHideInventory(false)
+					history.push(`/${completedUsername}`)
+
 			}
 		});
 	}, [history]);
@@ -219,6 +223,11 @@ function App() {
 		if (password === null) {
 			return;
 		} else {
+			console.log(username);
+			
+			setcompletedUsername(username)
+			console.log(completedUsername);
+			
 			runSubmit(event)
 		}
 	}
@@ -237,7 +246,7 @@ function App() {
 		};
 		// console.log(signUpInformation);
 		// console.log(signInInformation)
-
+		
 		switch (event.target.name) {
 			case 'signUp':
 				const match = confirmPassword === password;
@@ -281,7 +290,7 @@ function App() {
 			})
 			.then(() => {
 				setPassword(null);
-				setconfirmPassword(null);
+				setconfirmPassword(null);							
 				setHideSignIn(true);
 				setHideInventory(false);
 				history.push(`/${username}`)
@@ -293,6 +302,7 @@ function App() {
 			method: 'GET',
 			headers: { 'Content-Type': 'application/json' },
 		};
+		console.log(completedUsername);
 
 		console.log(requestOptions);
 
@@ -676,21 +686,21 @@ function App() {
 									</Link>
 									{/* USER BUTTON */}
 									<div className={hideUserOptions ? 'user' : 'hidden'}>
-										<Link to={username ? `${username}` : 'user'}>
+										<Link to={completedUsername ? `${completedUsername}` : 'user'}>
 											{/* GENERIC USER HEADER */}
 											<h2
 												onClick={cornerButtonClick}
-												className={username ? 'hidden' : 'user'}
+												className={completedUsername ? 'hidden' : 'user'}
 												name='user'
 												>
 												user
 											</h2>
 											{/* USERNAME HEADER */}
 											<h2
-												className={username ? 'user' : 'hidden'}
+												className={completedUsername ? 'user' : 'hidden'}
 												name='user'
 												>
-												{username}
+												{completedUsername}
 											</h2>
 										</Link>
 									</div>
@@ -709,12 +719,12 @@ function App() {
 					}}
 				/>
 				<Route
-					path={'/' + username}
+					path={'/' + completedUsername}
 					render={() => {
 						return (
 							<>
 								<Link to='/'>
-									<h1 className='header'>paperclip//{username}</h1>
+									<h1 className='header'>paperclip//{completedUsername}</h1>
 								</Link>
 								<Item
 									toggleAddItemHidden={toggleAddItemHidden}
