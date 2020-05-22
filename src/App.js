@@ -409,7 +409,7 @@ function App() {
 				`https://paperclip-api.herokuapp.com/api/user/${item.need.tier.user}`
 			).then((response) => response.json());
 
-			return { email: email.email, category: item.item.category.title, description: item.item.description, id: item._id};
+			return { email: email.email, category: item.item.category.title, description: item.item.description, id: item._id, cycle: item.cycle};
 		});
 		setTodoData(await Promise.all (contactData));
 	}
