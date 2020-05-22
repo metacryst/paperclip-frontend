@@ -16,8 +16,10 @@ function Trade(props) {
 
 					<p className='itemTradeDescription'>
 						{props.tradeData[props.tradeDataIndex]
-							? props.tradeData[props.tradeDataIndex].item.description
-							: 'nothing to trade!'}
+							? 
+							props.tradeData[props.tradeDataIndex].item.description
+							: 
+							'nothing to trade!'}
 					</p>
 				</div>
 			</div>

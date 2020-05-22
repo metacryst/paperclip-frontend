@@ -7,7 +7,7 @@ function Item(props) {
 		const filterItems = items.filter((item) => item.tier._id === tier._id);
 		const tierItems = filterItems.map((item) => {
 			return (
-				<div key={item._id}>
+				<div className="tierItems" key={item._id}>
 					<span
 						className='delete'
 						onClick={() => {
@@ -15,7 +15,7 @@ function Item(props) {
 						}}>
 						(-)
 					</span>{' '}
-					{item.category.title} - {item.description}
+					{item.category.title} <br></br>- {item.description}
 				</div>
 			);
 		});
@@ -27,16 +27,16 @@ function Item(props) {
 		);
 	});
 	const tierChoices = props.tierData.map((tier) => {
-		return <option value={tier._id}>Tier {tier.rank}</option>;
+		return <option value={tier._id} key={tier._id} >Tier {tier.rank}</option>;
 	});
 	const categoryChoices = props.categoryData.map((category) => {
 		return (
-			<option value={category._id}>{category.title.substring(0, 50)}</option>
+			<option value={category._id} key={category._id}>{category.title.substring(0, 50)}</option>
 		);
 	});
 
 	useEffect(() => {
-		console.log('useEffecting in item');
+		// console.log('useEffecting in item');
 		
 		props.getTierData();
 		// eslint-disable-next-line

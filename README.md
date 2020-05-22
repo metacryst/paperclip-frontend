@@ -46,4 +46,23 @@ A typical experience would have the user receive a notification when an item the
 
 - [Issues](https://github.com/briansamtrent/paperclip-backend/issues)
 
+## PLANNED FEATURES
 
+- Present to the user a visualization of trades they have completed, including items traded by other users as part of the same transaction.
+- Email the user when a trade is proposed so that they don't have to log in to the app to check if they have offers pending.
+
+## TECHNOLOGIES USED
+
+- HTML
+- CSS
+- Javascript
+- React
+- Node
+- Express
+- MongoDB
+
+## CONTRIBUTION GUIDELINES
+
+- [Source Code](https://github.com/briansamtrent/paperclip-frontend)
+
+- [Issues](https://github.com/briansamtrent/paperclip-frontend/issues)

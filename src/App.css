@@ -23,6 +23,28 @@ h2:active {
 	transform: translateY(3px);
 }
 
+/* LINKS */
+
+.todoItems {
+	position: absolute;
+	top: 30%;
+	left: 42%;
+	line-height: 40px;
+	font-weight: bold;
+}
+
+.cyclePath {
+	position: absolute;
+	top: 60%;
+	left: 48%;
+	font-weight: bold;
+	font-size: 12pt;
+}
+
+.cycleData {
+	position: absolute;
+}
+
 .graphic {
 	position: absolute;
 	top: 45%;
@@ -147,19 +169,24 @@ h2:active {
 }
 
 
-/* USER SCREEN */
+/* ITEMS AND NEEDS SCREEN */
 
 
 .itemsContainer {
 	position: absolute;
-	left: 25%;
-	top: 55%;
+	left: 20%;
+	top: 28%;
+	line-height: 30px;
 }
 
 .needsContainer {
 	position: absolute;
-	left: 68%;
-	top: 25%;
+	left: 72%;
+	top: 28%;
+}
+
+.tierItems {
+	line-height: 20px;
 }
 
 .newItemDescription {
