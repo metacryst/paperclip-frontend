@@ -16,13 +16,13 @@ A typical experience would have the user receive a notification when an item the
 
 - Create an account
 - Log in to the app
-- Add and remove items to your "haves" list.
-- Add and remove items from your "wants" lists.
+- Add and remove items to your "haves" list
+- Add and remove items from your "wants" lists
 - Group items by tier - you may receive offers for items in a tier higher than the one for that item, but never items in a lower tier.
-- Let the algorithm match you with other users who have things you want and vice-versa.
-- View trades on a trade screen.
-- Accept or reject proposed trades.
-- The app may determine routes through multiple users to offer efficient, multi-party trades.
+- Let the algorithm match you with other users who have things you want and vice-versa
+- View trades on a trade screen
+- Accept or reject proposed trades
+- The app may determine routes through multiple users to offer efficient, multi-party trades
 
 
 ## PLANNED FEATURES
