@@ -11,7 +11,7 @@ function Trade(props) {
 	return (
 		<>
 			<div className={props.hideTrade ? 'hidden' : 'tradeDisplay'}>
-				<div className={props.tradeData[0] ? 'hidden' : 'tradesmall'}>
+				<div className={props.tradeData[0] ? 'tradesmall' : 'hidden'}>
 					<h2>trade--</h2>
 
 					<p className='itemTradeDescription'>
@@ -24,7 +24,7 @@ function Trade(props) {
 			<button
 				id='yes'
 				className={
-					props.tradeData[props.tradeDataIndex] ? 'hidden' : 'decisionButton'
+					props.tradeData[props.tradeDataIndex] ? 'decisionButton' : 'hidden'
 				}
 				onClick={(e) => props.decisionButtonClick(e, props.tradeDataIndex + 1)}>
 				yes
@@ -33,7 +33,7 @@ function Trade(props) {
 			<button
 				id='no'
 				className={
-					props.tradeData[props.tradeDataIndex] ? 'hidden' : 'decisionButton'
+					props.tradeData[props.tradeDataIndex] ? 'decisionButton' : 'hidden'
 				}
 				onClick={(e) => props.decisionButtonClick(e, props.tradeDataIndex + 1)}>
 				no

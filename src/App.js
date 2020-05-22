@@ -115,12 +115,15 @@ function App() {
 					break;
 					
 				case `/${username}`: 
-					console.log('switching');
+					// console.log('switching');
 					setcompletedUsername(username)
 					setUsername(null)
 					setHideNav(true)
 					setHideInventory(false)
 					history.push(`/${completedUsername}`)
+					
+				case `/${completedUsername}`:
+					setHideNav(true)
 
 			}
 		});
@@ -144,6 +147,10 @@ function App() {
 		}
 		if (event.target.getAttribute('name') === 'trade') {
 			setHideTrade(false);
+			setHideNav(true);
+		}
+		if (event.target.getAttribute('name') === 'completedUsername') {
+			setHideInventory(false);
 			setHideNav(true);
 		}
 	}
@@ -697,8 +704,9 @@ function App() {
 											</h2>
 											{/* USERNAME HEADER */}
 											<h2
+												onClick={cornerButtonClick}
 												className={completedUsername ? 'user' : 'hidden'}
-												name='user'
+												name='completedUsername'
 												>
 												{completedUsername}
 											</h2>
