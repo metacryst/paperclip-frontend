@@ -272,7 +272,7 @@ function App() {
 
 		console.log(requestOptions);
 
-		fetch('http://localhost:8080/api/user', requestOptions)
+		fetch('https://paperclip-api.herokuapp.com/api/user', requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				console.log(data);
@@ -296,7 +296,7 @@ function App() {
 
 		console.log(requestOptions);
 
-		fetch(`http://localhost:8080/api/user/${username}/name`, requestOptions)
+		fetch(`https://paperclip-api.herokuapp.com/api/user/${username}/name`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				// console.log(data);
@@ -344,7 +344,7 @@ function App() {
 	//USER SCREEN FUNCTIONS
 
 	function getCategoryData() {
-		const url = `http://localhost:8080/api/category`;
+		const url = `https://paperclip-api.herokuapp.com/api/category`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -359,7 +359,7 @@ function App() {
 
 	//GET tier by user id
 	async function getTierData() {
-		const url = `http://localhost:8080/api/user/${userId}/tier`;
+		const url = `https://paperclip-api.herokuapp.com/api/user/${userId}/tier`;
 		const tierFetched = await fetch(url)
 			.then((response) => response.json())
 			.then(async (data) => {
@@ -386,7 +386,7 @@ function App() {
 
 	//GET item by user id
 	function getItemData() {
-		const url = `http://localhost:8080/api/item/${userId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/item/${userId}`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -399,7 +399,7 @@ function App() {
 
 	//Get Todos
 	function getTodoData() {
-		const url = `http://localhost:8080/api/cycle/${userId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/cycle/${userId}`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -411,7 +411,7 @@ function App() {
 	}
 
 	async function submitNewItem() {
-		const url = `http://localhost:8080/api/tier/item/${newItemTier}/${newItemCategory}`;
+		const url = `https://paperclip-api.herokuapp.com/api/tier/item/${newItemTier}/${newItemCategory}`;
 		const newItemBody = {
 			pic: 'pic',
 			description: newItemDescription,
@@ -435,7 +435,7 @@ function App() {
 	}
 
 	async function itemDelete(itemId) {
-		const url = `http://localhost:8080/api/item/${itemId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/item/${itemId}`;
 		const itemDeleted = await fetch(url, {
 			method: 'DELETE',
 			headers: {
@@ -461,7 +461,7 @@ function App() {
 	/////////////////////////////////////
 
 	function getNeedData() {
-		const url = `http://localhost:8080/api/need/${userId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/need/${userId}`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -473,7 +473,7 @@ function App() {
 	}
 
 	async function submitNewNeed() {
-		const url = `http://localhost:8080/api/tier/need/${newNeedTier}/${newNeedCategory}`;
+		const url = `https://paperclip-api.herokuapp.com/api/tier/need/${newNeedTier}/${newNeedCategory}`;
 		const newNeed = await fetch(url, {
 			method: 'POST',
 			headers: {
@@ -491,7 +491,7 @@ function App() {
 	}
 
 	async function needDelete(needId) {
-		const url = `http://localhost:8080/api/need/${needId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/need/${needId}`;
 		const needDeleted = await fetch(url, {
 			method: 'DELETE',
 			headers: {
@@ -526,7 +526,7 @@ function App() {
 	function getUserLinks() {
 		// settradeData
 		console.log('about to call');
-		const url = `http://localhost:8080/api/link/${userId}/unconfirmed`;
+		const url = `https://paperclip-api.herokuapp.com/api/link/${userId}/unconfirmed`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -605,7 +605,7 @@ function App() {
 			body: JSON.stringify(linkUpdateInformation),
 		};
 
-		fetch(`http://localhost:8080/api/link/${linkId}/confirm`, requestOptions)
+		fetch(`https://paperclip-api.herokuapp.com/api/link/${linkId}/confirm`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => {
 				console.log(data);
@@ -617,7 +617,7 @@ function App() {
 	// CYCLE FUNCTION
 	
 	function getTodoData() {
-		const url = `http://localhost:8080/api/cycle/${userId}`;
+		const url = `https://paperclip-api.herokuapp.com/api/cycle/${userId}`;
 		fetch(url)
 			.then((response) => response.json())
 			.then((data) => {
@@ -627,7 +627,6 @@ function App() {
 				setError(error);
 			});
 	}
-	
 
 	// A P I   I N T E R A C T I O N S
 	//
