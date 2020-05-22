@@ -5,14 +5,14 @@ function SignIn(props) {
 	return (
 		<>
 			<div className={props.hideSignIn ? 'hidden' : 'signIn'}>
-				<form>
+				<form autoComplete="yeeyee">
 					<input
 						className="inputBox"
 						onChange={props.handleChange}
 						type='text'
 						id='username'
 						name='username'
-						autoComplete="none"
+						autoComplete="yeeyee"
 						placeholder='username'
 					/>
 					

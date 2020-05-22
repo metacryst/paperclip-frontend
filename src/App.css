@@ -163,10 +163,100 @@ h2:active {
 }
 
 .newItemDescription {
-	width: 35%;
+	background: transparent;
+	border: 2px solid black;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	margin-left: 8px;
+	height: 20px;
+	font-size: 8pt
+}
+
+.newItemDescription:focus {
+	outline: 0;
+	background: transparent;
+}
+
+.newItemDescription:focus::placeholder {
+	color: transparent;
+	outline: 0
+}
+
+.select {
+	appearance: none;
+	box-sizing: border-box;
+	width: 80px;
+	border: 2px solid black;
+	border-radius: 0px;
+	/* border-top: none;
+	border-left: none;
+	border-right: none; */
+	background: transparent;
+	padding: 2px;
+	margin-left: 2px;
+	text-align-last: center;
+}
+
+.select:focus {
+	outline: 0;
+}
+
+#itemTiers,
+#needTiers {
+	margin-right: 5px
+}
+
+#itemCategories,
+#needCategories {
+	margin-left: 7px;
+	/* width: 80px; */
+}
+
+.categoryTier {
+	margin-top: 14px;
+	margin-bottom: 8px;
+}
+
+.itemSubmit {
+	margin-left: 15px;
+}
+
+.itemSubmit,
+.needSubmit {
+	margin-top: 3px;
+	padding: 5px;
+	background: transparent;
+	color: black;
+	border: 2px solid black;
+	font-weight: bolder;
+	font-size: 6pt;
+	width: 40px;
+	height: 40px;
+	border-radius: 90%;
+}
+
+.itemSubmit:hover,
+.needSubmit:hover {
+	background-color: white;
+	cursor: pointer;
+}
+
+.itemSubmit:active,
+.needSubmit:active {
+	background-color: grey;
+	transform: translateY(3px);
+}
+
+.itemSubmit:focus,
+.needSubmit:focus {
+	outline: 0;
 }
 
 
+
+
+/* TRADE SCREEN */
 
 
 .tradeDisplay {

@@ -13,7 +13,7 @@ function SignUp(props) {
 						placeholder='email'
 						id='email'
 						name='email'
-						autoComplete="none"
+						autoComplete="yeeyee"
 					/>
 					<input
 						className="inputBox"
@@ -22,7 +22,7 @@ function SignUp(props) {
 						placeholder='username'
 						id='username'
 						name='username'
-						autoComplete="none"
+						autoComplete="yeeyee"
 					/>
 
 					<input
