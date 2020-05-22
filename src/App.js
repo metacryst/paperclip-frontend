@@ -715,10 +715,10 @@ function App() {
 									{/* USER BUTTON ON CLICK WHILE NOT SIGNED IN */}
 									<div className={hideUserOptions ? 'hidden' : 'user'}>
 										<Link to='/signup'>
-											<h2>sign up</h2>
+											<h2 className="navSignButton">sign up</h2>
 										</Link>
 										<Link to='/signin'>
-											<h2>sign in</h2>
+											<h2 className="navSignButton">sign in</h2>
 										</Link>
 									</div>
 								</div>
