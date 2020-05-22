@@ -62,6 +62,7 @@ function App() {
 	const [addNeedHidden, setAddNeedHidden] = useState('hidden');
 
 	const [todoData, setTodoData] = useState([]);
+	const [cycleData, setCycleData] = useState([]);
 
 	// function to handle display for each url
 	const history = useHistory();
@@ -409,9 +410,25 @@ function App() {
 				`https://paperclip-api.herokuapp.com/api/user/${item.need.tier.user}`
 			).then((response) => response.json());
 
-			return { email: email.email, category: item.item.category.title, description: item.item.description, id: item._id, cycle: item.cycle};
+			return {
+				email: email.email,
+				category: item.item.category.title,
+				description: item.item.description,
+				id: item._id,
+				cycle: item.cycle,
+			};
 		});
-		setTodoData(await Promise.all (contactData));
+		setTodoData(await Promise.all(contactData));
+	}
+
+	function getCycleData(cycleId) {
+		const url = `https://paperclip-api.herokuapp.com/api/cycle/${cycleId}/link`;
+		fetch(url)
+			.then((response) => response.json())
+			.then((data) => setCycleData(data))
+			.catch(function (error) {
+				setError(error);
+			});
 	}
 
 	async function submitNewItem() {
@@ -822,7 +839,12 @@ function App() {
 								<Link to='/'>
 									<h1 className='header'>paperclip</h1>
 								</Link>
-								<Cycle getTodoData={getTodoData} todoData={todoData} />
+								<Cycle
+									getTodoData={getTodoData}
+									todoData={todoData}
+									getCycleData={getCycleData}
+									cycleData={cycleData}
+								/>
 							</>
 						);
 					}}
