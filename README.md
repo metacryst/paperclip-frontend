@@ -1,7 +1,5 @@
 # paperclip//
 
-## BARTER
-
 In 2006, Kyle MacDonald bartered his way from a single paperclip to a house. In fourteen steps, Kyle was able to exchange goods and experiences, from an empty keg to an afternoon with Gene Simmons, for items more valuable to him. Kyle ultimately landed the house in exchange for a movie role.
 
 paperclip aims to create the same experience for people all over the world. paperclip provides a platform for users to make trades, giving them the power to make their own decisions about the value of their belongings.
