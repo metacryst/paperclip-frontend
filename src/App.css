@@ -23,6 +23,28 @@ h2:active {
 	transform: translateY(3px);
 }
 
+/* LINKS */
+
+.todoItems {
+	position: absolute;
+	top: 30%;
+	left: 42%;
+	line-height: 40px;
+	font-weight: bold;
+}
+
+.cyclePath {
+	position: absolute;
+	top: 60%;
+	left: 48%;
+	font-weight: bold;
+	font-size: 12pt;
+}
+
+.cycleData {
+	position: absolute;
+}
+
 .graphic {
 	position: absolute;
 	top: 45%;

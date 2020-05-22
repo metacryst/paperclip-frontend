@@ -123,7 +123,15 @@ function App() {
 					
 				case `/${completedUsername}`:
 					setHideNav(true)
-
+					
+				case '/link':
+					setHideUserOptions(true);
+					setHideAbout(true);
+					setHideTrade(true);
+					setHideSignUp(true);
+					setHideSignIn(true);
+					setHideNav(true);
+					setHideNav(true);
 			}
 		});
 	}, [completedUsername, history, username]);
@@ -136,6 +144,11 @@ function App() {
 		}
 	};
 
+	
+	function middleButtonCick() {
+		setHideNav(true);
+	}
+	
 	function cornerButtonClick(event) {
 		if (event.target.getAttribute('name') === 'user') {
 			setHideUserOptions(false);
@@ -667,7 +680,7 @@ function App() {
 			<main>
 				<div className='graphicHolder'>
 					<Link to='/link'>
-						<p className='graphic'>
+						<p className='graphic' onclick={middleButtonCick}>
 							=======<br></br>=====
 						</p>
 					</Link>
@@ -853,7 +866,7 @@ function App() {
 						return (
 							<>
 								<Link to='/'>
-									<h1 className='header'>paperclip</h1>
+									<h1 className='header'>paperclip//{completedUsername ? `${completedUsername}` + '\'s LINKS' : 'NO LINKS'}</h1>
 								</Link>
 								<Cycle
 									getTodoData={getTodoData}

@@ -20,7 +20,7 @@ function Cycle(props) {
 					}}>
 					(+)
 				</span>{' '}
-				Contact {todo.email} to trade your {todo.category} with them!
+				{todo.email} // trade your {todo.category}!
 			</div>
 		);
 	});
@@ -40,8 +40,8 @@ function Cycle(props) {
 
 	return (
 		<>
-			<div>{todoItems}</div>
-			<div>{cyclePath}</div>
+			<div className="todoItems">{todoItems}</div>
+			<div className="cyclePath">{cyclePath}</div>
 		</>
 	);
 }
