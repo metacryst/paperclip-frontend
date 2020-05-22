@@ -11,8 +11,7 @@ import Need from './components/Need.js';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 
-import Cycle from './components/Cycle'
-
+import Cycle from './components/Cycle';
 
 function App() {
 	const [error, setError] = useState('');
@@ -23,8 +22,8 @@ function App() {
 	const [hideSignUp, setHideSignUp] = useState(true);
 	const [hideAbout, setHideAbout] = useState(true);
 	const [hideTrade, setHideTrade] = useState(true);
-	
-	const [hideInventory, setHideInventory] = useState(true)
+
+	const [hideInventory, setHideInventory] = useState(true);
 
 	//hook for display of the nav menu itself
 	const [hideNav, setHideNav] = useState(false);
@@ -41,16 +40,16 @@ function App() {
 	//hook for storing current user info
 	//ideally this would be in local storage so refreshing wouldn't break everything
 	const [userId, setUserId] = useState('');
-	const [completedUsername, setcompletedUsername] = useState(null)
+	const [completedUsername, setcompletedUsername] = useState(null);
 
 	//hook for trade options/link data/array of links with 0 value
 	const [tradeData, settradeData] = useState(['']);
 	const [tradeDataIndex, settradeDataIndex] = useState(0);
-	
+
 	//hooks for user items screen
 	const [tierData, setTierData] = useState([]);
 	const [categoryData, setCategoryData] = useState([]);
-	
+
 	const [itemData, setItemData] = useState([]);
 	const [newItemTier, setNewItemTier] = useState([]);
 	const [newItemCategory, setNewItemCategory] = useState([]);
@@ -61,9 +60,8 @@ function App() {
 	const [newNeedTier, setNewNeedTier] = useState([]);
 	const [newNeedCategory, setNewNeedCategory] = useState([]);
 	const [addNeedHidden, setAddNeedHidden] = useState('hidden');
-	
-	const [todoData, setTodoData] = useState('')
 
+	const [todoData, setTodoData] = useState([]);
 
 	// function to handle display for each url
 	const history = useHistory();
@@ -89,7 +87,7 @@ function App() {
 
 				case '/user':
 					setHideUserOptions(false);
-					setHideNav(false)
+					setHideNav(false);
 					break;
 
 				case '/about':
@@ -113,29 +111,28 @@ function App() {
 					setHideNav(true);
 					setHideSignUp(false);
 					break;
-					
-				case `/${username}`: 
-					// console.log('switching');
-					setcompletedUsername(username)
-					setUsername(null)
-					setHideNav(true)
-					setHideInventory(false)
-					history.push(`/${completedUsername}`)
-					
-				case `/${completedUsername}`:
-					setHideNav(true)
 
+				case `/${username}`:
+					// console.log('switching');
+					setcompletedUsername(username);
+					setUsername(null);
+					setHideNav(true);
+					setHideInventory(false);
+					history.push(`/${completedUsername}`);
+
+				case `/${completedUsername}`:
+					setHideNav(true);
 			}
 		});
-	}, [history]);
+	}, [completedUsername, history, username]);
 
 	// BUG WORKAROUND FOR DEPLOYMENT, FIX THE FACT THAT REFRESH CHANGES STATE
-	window.onload = (() => {
+	window.onload = () => {
 		// console.log('window onloading');
-		if(window.location.pathname != '/') {
-			window.location.assign('/')
+		if (window.location.pathname != '/') {
+			window.location.assign('/');
 		}
-	})
+	};
 
 	function cornerButtonClick(event) {
 		if (event.target.getAttribute('name') === 'user') {
@@ -219,11 +216,11 @@ function App() {
 
 	let signUpInformation;
 	let signInInformation;
-	
+
 	function checkSubmit(event) {
-		event.preventDefault()
+		event.preventDefault();
 		console.log('checking submit');
-		
+
 		if (username === null) {
 			return;
 		}
@@ -231,17 +228,17 @@ function App() {
 			return;
 		} else {
 			console.log(username);
-			
-			setcompletedUsername(username)
+
+			setcompletedUsername(username);
 			console.log(completedUsername);
-			
-			runSubmit(event)
+
+			runSubmit(event);
 		}
 	}
 
 	function runSubmit(event) {
-		event.preventDefault()
-		
+		event.preventDefault();
+
 		signUpInformation = {
 			email: email,
 			userName: username,
@@ -253,7 +250,7 @@ function App() {
 		};
 		// console.log(signUpInformation);
 		// console.log(signInInformation)
-		
+
 		switch (event.target.name) {
 			case 'signUp':
 				const match = confirmPassword === password;
@@ -297,10 +294,10 @@ function App() {
 			})
 			.then(() => {
 				setPassword(null);
-				setconfirmPassword(null);							
+				setconfirmPassword(null);
 				setHideSignIn(true);
 				setHideInventory(false);
-				history.push(`/${username}`)
+				history.push(`/${username}`);
 			});
 	}
 
@@ -313,7 +310,10 @@ function App() {
 
 		console.log(requestOptions);
 
-		fetch(`https://paperclip-api.herokuapp.com/api/user/${username}/name`, requestOptions)
+		fetch(
+			`https://paperclip-api.herokuapp.com/api/user/${username}/name`,
+			requestOptions
+		)
 			.then((response) => response.json())
 			.then((data) => {
 				// console.log(data);
@@ -334,30 +334,10 @@ function App() {
 				setconfirmPassword(null);
 				setHideSignIn(true);
 				setHideInventory(false);
-				history.push(`/${username}`)
+				history.push(`/${username}`);
 			});
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//USER SCREEN FUNCTIONS
 
 	function getCategoryData() {
@@ -415,16 +395,23 @@ function App() {
 	}
 
 	//Get Todos
-	function getTodoData() {
-		const url = `https://paperclip-api.herokuapp.com/api/cycle/${userId}`;
-		fetch(url)
+	async function getTodoData() {
+		const url = `https://paperclip-api.herokuapp.com/api/link/${userId}/cycle`;
+		const data = await fetch(url)
 			.then((response) => response.json())
-			.then((data) => {
-				setTodoData(data);
-			})
+
 			.catch(function (error) {
 				setError(error);
 			});
+		const contactData = await data.map(async (item) => {
+			console.log();
+			const email = await fetch(
+				`https://paperclip-api.herokuapp.com/api/user/${item.need.tier.user}`
+			).then((response) => response.json());
+
+			return { email: email.email, category: item.item.category.title, description: item.item.description, id: item._id};
+		});
+		setTodoData(await Promise.all (contactData));
 	}
 
 	async function submitNewItem() {
@@ -532,12 +519,12 @@ function App() {
 	}
 
 	/////////////////////////////////////////
-	// 
-	// 	
-	// 
-	// 
-	// 
-	// 
+	//
+	//
+	//
+	//
+	//
+	//
 	//TRADE FUNCTIONS
 
 	function getUserLinks() {
@@ -585,12 +572,12 @@ function App() {
 	//PUT to update links with trade decisions
 	function decideTrade(decision, linkIndex) {
 		console.log('trade decided');
-		console.log(tradeData)
-		if(!tradeData[0]) {
+		console.log(tradeData);
+		if (!tradeData[0]) {
 			console.log('no trade data!');
-			return
+			return;
 		}
-		
+
 		let linkId = tradeData[linkIndex]._id;
 		console.log(linkId);
 
@@ -622,28 +609,17 @@ function App() {
 			body: JSON.stringify(linkUpdateInformation),
 		};
 
-		fetch(`https://paperclip-api.herokuapp.com/api/link/${linkId}/confirm`, requestOptions)
+		fetch(
+			`https://paperclip-api.herokuapp.com/api/link/${linkId}/confirm`,
+			requestOptions
+		)
 			.then((response) => response.json())
 			.then((data) => {
 				console.log(data);
 			});
 	}
-	
-	
-	
+
 	// CYCLE FUNCTION
-	
-	function getTodoData() {
-		const url = `https://paperclip-api.herokuapp.com/api/cycle/${userId}`;
-		fetch(url)
-			.then((response) => response.json())
-			.then((data) => {
-				setTodoData(data);
-			})
-			.catch(function (error) {
-				setError(error);
-			});
-	}
 
 	// A P I   I N T E R A C T I O N S
 	//
@@ -657,7 +633,7 @@ function App() {
 		<div className='wrapper' id='grad'>
 			<main>
 				<div className='graphicHolder'>
-					<Link to="/link">
+					<Link to='/link'>
 						<p className='graphic'>
 							=======<br></br>=====
 						</p>
@@ -693,21 +669,20 @@ function App() {
 									</Link>
 									{/* USER BUTTON */}
 									<div className={hideUserOptions ? 'user' : 'hidden'}>
-										<Link to={completedUsername ? `${completedUsername}` : 'user'}>
+										<Link
+											to={completedUsername ? `${completedUsername}` : 'user'}>
 											{/* GENERIC USER HEADER */}
 											<h2
 												onClick={cornerButtonClick}
 												className={completedUsername ? 'hidden' : 'user'}
-												name='user'
-												>
+												name='user'>
 												user
 											</h2>
 											{/* USERNAME HEADER */}
 											<h2
 												onClick={cornerButtonClick}
 												className={completedUsername ? 'user' : 'hidden'}
-												name='completedUsername'
-												>
+												name='completedUsername'>
 												{completedUsername}
 											</h2>
 										</Link>
@@ -773,9 +748,11 @@ function App() {
 						return (
 							<>
 								<Link to='/'>
-									<h1 className={hideTrade ? 'hidden' : 'header'}
+									<h1
+										className={hideTrade ? 'hidden' : 'header'}
 										name='trade'
-										onClick={paperclipButtonClick}>paperclip//trade
+										onClick={paperclipButtonClick}>
+										paperclip//trade
 									</h1>
 								</Link>
 								<Trade
@@ -838,21 +815,17 @@ function App() {
 					}}
 				/>
 				<Route
-				path='/link'
-				render={()=>{
-					return(
-						<>
-						<Link to='/'>
-							<h1 className='header'>paperclip</h1>
-						</Link>
-							<Cycle
-							getTodoData={getTodoData}
-							useEffect={useEffect}
-							todoData={todoData}
-						/>	
-						</>
-					)
-				}}
+					path='/link'
+					render={() => {
+						return (
+							<>
+								<Link to='/'>
+									<h1 className='header'>paperclip</h1>
+								</Link>
+								<Cycle getTodoData={getTodoData} todoData={todoData} />
+							</>
+						);
+					}}
 				/>
 			</main>
 		</div>
