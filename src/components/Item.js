@@ -7,7 +7,7 @@ function Item(props) {
 		const filterItems = items.filter((item) => item.tier._id === tier._id);
 		const tierItems = filterItems.map((item) => {
 			return (
-				<div key={item._id}>
+				<div className="tierItems" key={item._id}>
 					<span
 						className='delete'
 						onClick={() => {
@@ -15,7 +15,7 @@ function Item(props) {
 						}}>
 						(-)
 					</span>{' '}
-					{item.category.title} - {item.description}
+					{item.category.title} <br></br>- {item.description}
 				</div>
 			);
 		});

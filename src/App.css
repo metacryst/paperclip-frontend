@@ -169,19 +169,24 @@ h2:active {
 }
 
 
-/* USER SCREEN */
+/* ITEMS AND NEEDS SCREEN */
 
 
 .itemsContainer {
 	position: absolute;
-	left: 25%;
-	top: 55%;
+	left: 20%;
+	top: 28%;
+	line-height: 30px;
 }
 
 .needsContainer {
 	position: absolute;
-	left: 68%;
-	top: 25%;
+	left: 72%;
+	top: 28%;
+}
+
+.tierItems {
+	line-height: 20px;
 }
 
 .newItemDescription {
