@@ -6,7 +6,7 @@ paperclip aims to create the same experience for people all over the world. pape
 
 The best part: paperclip is completely free. No money changes hands. You decide what to trade and let paperclip match you with users who can provide you with the things you need. With paperclip, Kyle would have saved thousands of miles of travel and hundreds of hours of trawling the internet. With paperclip, you can make the same trades in minutes.
 
-![home page](/public/paperclip//.png?raw=true "paperclip//")
+![home page](/public/paperclip::.png?raw=true "paperclip//")
 
 ## DESCRIPTION
 
