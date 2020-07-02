@@ -6,6 +6,8 @@ paperclip aims to create the same experience for people all over the world. pape
 
 The best part: paperclip is completely free. No money changes hands. You decide what to trade and let paperclip match you with users who can provide you with the things you need. With paperclip, Kyle would have saved thousands of miles of travel and hundreds of hours of trawling the internet. With paperclip, you can make the same trades in minutes.
 
+![home page](/public/paperclip//.png?raw=true "paperclip//")
+
 ## DESCRIPTION
 
 paperclip is a web app that allows users to put their items up for trade and receive offers in return. paperclip works by matching user needs with user belongings. Needs and haves are stored in a database, where links are made between users who have possible trades. Links are presented to users as trades. Trades are not limited to one-to-one transactions. paperclip will determine routes through multiple user inventories and present trades that can include dozens of users in the same cycle.
