@@ -23,6 +23,9 @@ h2:active {
 	transform: translateY(3px);
 }
 
+
+
+
 /* LINKS */
 
 .todoItems {
@@ -90,6 +93,8 @@ h2:active {
 .navSignButton {
 	color: white;
 }
+
+
 
 
 
@@ -167,6 +172,9 @@ h2:active {
 .isUserFound {
 	margin-left: 8px;
 }
+
+
+
 
 
 /* ITEMS AND NEEDS SCREEN */
@@ -283,6 +291,8 @@ h2:active {
 
 
 
+
+
 /* TRADE SCREEN */
 
 
@@ -334,6 +344,10 @@ h2:active {
 .hidden {
 	display: none;
 }
+
+
+
+
 
 
 

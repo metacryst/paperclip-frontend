@@ -4,7 +4,6 @@ import './App.css';
 
 import About from './components/About.js';
 import Trade from './components/Trade.js';
-import User from './components/User.js';
 import Item from './components/Item.js';
 import Need from './components/Need.js';
 
@@ -256,7 +255,7 @@ function App() {
 		} 
 		else {
 // 			console.log(username);		
-			setcompletedUsername(username);	
+			setcompletedUsername(username);
 			runSubmit(event)
 		}
 	}
